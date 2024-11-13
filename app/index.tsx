@@ -1,7 +1,7 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import Post from "@/components/post";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 export default function Index() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 import * as S from "./styles";
 import { PostProps } from "./props";
 import {
@@ -12,7 +12,6 @@ import {
 
 const TeacherIcon = require("../../assets/images/teacher.png");
 const StudentIcon = require("../../assets/images/student.png");
-
 const Post: React.FC<PostProps> = ({
   title,
   description,
@@ -33,7 +32,11 @@ const Post: React.FC<PostProps> = ({
     <MenuProvider>
       <S.Container>
         <S.UserInfo>
-          <Image source={userIcon} style={{ width: 24, height: 24 }} />
+          <Image
+            source={userIcon}
+            style={{ width: 30, height: 25 }}
+            resizeMode="contain"
+          />
           <S.UserName>{userName}</S.UserName>
           <Menu>
             <MenuTrigger>

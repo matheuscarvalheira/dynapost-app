@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 export const Container = styled.View`
   padding: 20px;
@@ -15,7 +15,7 @@ export const Container = styled.View`
 export const UserInfo = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 10px;
 `;
 
@@ -37,21 +37,28 @@ export const Description = styled.Text`
 `;
 
 export const MenuTriggerText = styled.Text`
-  font-size: 24px;
+  font-size: 25px;
   color: #000;
-  padding: 5px;
+  text-align: center;
+  margin-bottom: 10px;
 `;
 
 export const optionsStyles = {
   optionsContainer: {
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: 150,
   },
   optionWrapper: {
     padding: 10,
   },
   optionText: {
-    color: '#000',
+    color: "#000",
   },
 };
