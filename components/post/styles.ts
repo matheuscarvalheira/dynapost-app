@@ -27,8 +27,8 @@ export const UserName = styled.Text`
 
 export const Title = styled.Text`
   font-size: 18px;
-  font-weight: bold;
   margin-bottom: 10px;
+  font-family: ${({ theme }) => theme.fonts.poppins.medium};
 `;
 
 export const Description = styled.Text`
