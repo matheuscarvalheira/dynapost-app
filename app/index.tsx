@@ -1,6 +1,5 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
-import ListItems from "@/components/listItems";
 import Post from "@/components/post";
 import { View } from "react-native";
 
@@ -13,28 +12,26 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-        <ListItems
-          list={[
-            { name: "Fulano", id: "1" },
-            { name: "Fulana", id: "2" },
-            { name: "Fulanos", id: "3" },
-            { name: "Fulanos", id: "4" },
-            { name: "Fulanos", id: "5" },
-            { name: "Fulanos", id: "6" },
-            { name: "Fulanos", id: "7" },
-            { name: "Fulanos", id: "8" },
-            { name: "Fulanos", id: "9" },
-            { name: "Fulanos", id: "10" },
-            { name: "Fulanos", id: "11" },
-            { name: "Fulanos", id: "12" },
-          ]}
-          handleEdit={function (id: string): void {
-            alert(id);
-          }}
-          handleDelete={function (id: string): void {
-            alert(id);
-          }}
-        />
+      <Input label="E-mail" />
+      <Button onPress={() => {}}>Selecionar</Button>
+      <Post
+        title="Título da Postagem"
+        description="There are many variations of passages of Lorem 
+        Ipsum available, but the majority have suffered alteration 
+        in some form, by injected humour, or random words which 
+        don't look even slightly believable. If you are going to use 
+        a passage of Lorem Ipsum, you need to be sure there isn't 
+        anything embarrassing hidden in the middle of text. All the 
+        Lorem Ipsum generators on the Internet tend to repeat 
+        predefined chunks as necessary, making this the first true 
+        generator on the Internet. It uses a dictionary of over 200 
+        Latin words, combined with a handful of model sentence 
+        structures, to generate Lorem Ipsum which looks reasonable. 
+        The generated Lorem Ipsum is therefore always free from 
+        repetition, injected humour, or non-characteristic words etc."
+        userType="teacher"
+        userName="Prof. Lorem"
+      />
     </View>
   );
 }
