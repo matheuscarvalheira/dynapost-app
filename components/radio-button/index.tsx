@@ -43,3 +43,20 @@ export default function RadioButton({ options, checkbox, groupName, required}: R
     </View>
   );
 }
+
+	// <RadioButton
+	// options={options}
+	// groupName="exampleGroup"
+	// required={true}
+	// checkbox
+	// />
+
+	// const options = [
+	// 	{ value: 'Javascript' },
+	// 	{ value: 'AWS' },
+	// 	{ value: 'Typescript' },
+	//   ];
+	
+	//   const handleOptionChange = (value: string) => {
+	// 	console.log('Selected option:', value);
+	//   };
