@@ -5,6 +5,8 @@ import { theme } from '../styles/theme';
 import { useFonts, Poppins_400Regular, Poppins_300Light, Poppins_500Medium } from '@expo-google-fonts/poppins';
 import { Inter_300Light, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
+import TabNavigator from './navigation/TabNavigator';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function RootLayout() {
   // Carregando as fontes
@@ -24,9 +26,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Stack>
-        <Stack.Screen name="index" />
-      </Stack>
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
