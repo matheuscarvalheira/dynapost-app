@@ -1,9 +1,19 @@
-import Button from "@/components/button";
-import Input from "@/components/input";
 import { Text, View } from "react-native";
+import { useState } from "react";
+import RadioButton from "@/components/radio-button";
 
 export default function Index() {
-  return (
+  const options = [
+    { value: 'Javascript' },
+    { value: 'AWS' },
+    { value: 'Typescript' },
+  ];
+
+  const handleOptionChange = (value: string) => {
+    console.log('Selected option:', value);
+  };
+
+  return ( 
     <View
       style={{
         flex: 1,
@@ -11,10 +21,13 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Input label='E-mail' />
-      <Button onClick={() => {}}>
-        Selecionar
-      </Button>
+    
+      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <RadioButton
+        options={options}
+        groupName="exampleGroup"
+        required={true}
+      />
     </View>
   );
 }
