@@ -1,12 +1,19 @@
-import React from 'react';
-import { Stack } from 'expo-router';
-import { ThemeProvider } from 'styled-components/native';
-import { theme } from '../styles/theme';
-import { useFonts, Poppins_400Regular, Poppins_300Light, Poppins_500Medium } from '@expo-google-fonts/poppins';
-import { Inter_300Light, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
-import AppLoading from 'expo-app-loading';
-import TabNavigator from './navigation/TabNavigator';
-import { NavigationContainer } from '@react-navigation/native';
+import React from "react";
+import { ThemeProvider } from "styled-components/native";
+import { theme } from "../styles/theme";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_300Light,
+  Poppins_500Medium,
+} from "@expo-google-fonts/poppins";
+import {
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+} from "@expo-google-fonts/inter";
+import TabNavigator from "./navigation/TabNavigator";
+import { ActivityIndicator, View, StyleSheet } from "react-native";
 
 export default function RootLayout() {
   // Carregando as fontes
@@ -21,14 +28,24 @@ export default function RootLayout() {
 
   // Enquanto as fontes não estão carregadas, exibe uma tela de carregamento
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <TabNavigator />
-      </NavigationContainer>
+      <TabNavigator />
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

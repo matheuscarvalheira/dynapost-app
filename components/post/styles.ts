@@ -54,6 +54,7 @@ export const optionsStyles = {
     shadowRadius: 3.84,
     elevation: 5,
     width: 150,
+    marginTop: -20,
   },
   optionWrapper: {
     padding: 10,
