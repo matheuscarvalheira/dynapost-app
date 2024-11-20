@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     borderColor: 'black',
     borderWidth: 1,
-    padding: 10,
+    padding: 12,
   },
   unselected: {
     color: 'black',
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   selected: {
     borderColor: '#996DFF',
     color: '#996DFF',
-    margin: 6,
+    margin: 5,
   },
   selectedText: {
     color: '#996DFF',

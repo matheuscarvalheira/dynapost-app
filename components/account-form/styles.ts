@@ -11,3 +11,14 @@ export const ErrorText = styled.Text`
   color: red;
   margin-bottom: 10px;
 `;
+
+export const RadioButtonContainer = styled.View`
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+`;
+
+export const CheckBoxContainer = styled.View`
+  margin-top: 5px;
+  margin-bottom: 10px;
+`;
