@@ -6,4 +6,6 @@ export const Input = styled.TextInput`
   border-radius: 25px;
   border: 1px solid #000;
   margin-bottom: 15px;
+  textAlign: left;
+  textAlignVertical: top;
 `;
