@@ -14,6 +14,7 @@ import {
 } from "@expo-google-fonts/inter";
 import TabNavigator from "./navigation/TabNavigator";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
+import { AuthProvider } from "@/contexts/auth-context";
 
 export default function RootLayout() {
   // Carregando as fontes
@@ -36,8 +37,11 @@ export default function RootLayout() {
   }
 
   return (
+
     <ThemeProvider theme={theme}>
-      <TabNavigator />
+      <AuthProvider>
+       <TabNavigator />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
