@@ -4,7 +4,7 @@ import Feed from '../screens/FeedScreen';
 import Search from '@/app/screens/SearchScreen';
 import { Image } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
-import NewPostScreen from '../screens/NewPostScreen';
+import PostScreen from '../screens/PostScreen';
 import TeachersListScreen from '../screens/TeachersListScreen';
 import StudentsListScreen from '../screens/StudentsListScreen';
 
@@ -59,7 +59,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Feed" component={Feed} />
       <Tab.Screen name="Search" component={Search} />
-      <Tab.Screen name="NewPost" component={NewPostScreen} />
+      <Tab.Screen name="NewPost" component={PostScreen} />
       <Tab.Screen name="TeachersList" component={TeachersListScreen} />
       <Tab.Screen name="StudentsList" component={StudentsListScreen} />
     </Tab.Navigator>
