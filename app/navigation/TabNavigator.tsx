@@ -22,6 +22,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }: { route: RouteProp<RootTabParamList, keyof RootTabParamList> }) => ({
+        headerShown: false,
         tabBarIcon: ({ focused }: { focused: boolean }) => {
           let iconName;
 
