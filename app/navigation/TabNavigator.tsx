@@ -7,6 +7,7 @@ import { RouteProp } from '@react-navigation/native';
 import PostScreen from '../screens/PostScreen';
 import TeachersListScreen from '../screens/TeachersListScreen';
 import StudentsListScreen from '../screens/StudentsListScreen';
+import FeedStack from '../screens/FeedStack';
 
 type RootTabParamList = {
   Feed: undefined;
@@ -57,11 +58,13 @@ const TabNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Feed" component={Feed} />
+
+      <Tab.Screen name="Feed" options={{headerShown: false}} component={FeedStack} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="NewPost" component={PostScreen} />
       <Tab.Screen name="TeachersList" component={TeachersListScreen} />
       <Tab.Screen name="StudentsList" component={StudentsListScreen} />
+
     </Tab.Navigator>
   );
 };
