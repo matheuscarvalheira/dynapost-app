@@ -58,13 +58,11 @@ const TabNavigator = () => {
         },
       })}
     >
-
       <Tab.Screen name="Feed" options={{headerShown: false}} component={FeedStack} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="NewPost" component={PostScreen} />
       <Tab.Screen name="TeachersList" component={TeachersListScreen} />
       <Tab.Screen name="StudentsList" component={StudentsListScreen} />
-
     </Tab.Navigator>
   );
 };
