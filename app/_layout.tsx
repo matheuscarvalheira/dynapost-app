@@ -22,7 +22,7 @@ import { MenuProvider } from "react-native-popup-menu";
 const Stack = createStackNavigator();
 
 export default function CheckLogin() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Carregando as fontes
   const [fontsLoaded] = useFonts({
@@ -34,14 +34,14 @@ export default function CheckLogin() {
     Inter_500Medium,
   });
 
-  //   useEffect(() => {
-  // 	const checkLoginStatus = async () => {
-  // 	  const loggedIn = await fakeAuthCheck();
-  // 	  setIsLoggedIn(loggedIn as boolean);
-  // 	};
+    useEffect(() => {
+  	const checkLoginStatus = async () => {
+  	  const loggedIn = await fakeAuthCheck();
+  	  setIsLoggedIn(loggedIn as boolean);
+  	};
 
-  // 	checkLoginStatus();
-  //   }, []);
+  	checkLoginStatus();
+    }, []);
 
   const fakeAuthCheck = async () => {
     // Simula uma verificação de aut
