@@ -59,7 +59,7 @@ export default function CheckLogin() {
 	<ThemeProvider theme={theme}>
 	  <Stack.Navigator>
 		{isLoggedIn ? (
-		  <Stack.Screen name="Home" component={TabNavigator} />
+		  <Stack.Screen name="Home" options={{headerShown: false}} component={TabNavigator} />
 		) : (
 		  <Stack.Screen name="Login" component={LoginScreen} />
 		)}
