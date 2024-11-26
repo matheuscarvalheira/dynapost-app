@@ -6,12 +6,12 @@ import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuProvider,
   MenuTrigger,
 } from "react-native-popup-menu";
 
 const TeacherIcon = require("../../assets/images/teacher.png");
 const StudentIcon = require("../../assets/images/student.png");
+
 const Post: React.FC<PostProps> = ({
   title,
   description,
