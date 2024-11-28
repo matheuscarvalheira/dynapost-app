@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import * as S from "./styles";
 import { PostProps } from "./props";
 import {
@@ -29,15 +29,15 @@ const Post: React.FC<PostProps> = ({
   };
 
   return (
-    <MenuProvider>
-      <S.Container>
-        <S.UserInfo>
-          <Image
-            source={userIcon}
-            style={{ width: 30, height: 25 }}
-            resizeMode="contain"
-          />
-          <S.UserName>{userName}</S.UserName>
+    <S.Container>
+      <S.UserInfo>
+        <Image
+          source={userIcon}
+          style={{ width: 30, height: 25 }}
+          resizeMode="contain"
+        />
+        <S.UserName>{userName}</S.UserName>
+        <View>
           <Menu>
             <MenuTrigger>
               <S.MenuTriggerText>...</S.MenuTriggerText>
@@ -47,11 +47,11 @@ const Post: React.FC<PostProps> = ({
               <MenuOption onSelect={handleDelete} text="Delete" />
             </MenuOptions>
           </Menu>
-        </S.UserInfo>
-        <S.Title>{title}</S.Title>
-        <S.Description>{description}</S.Description>
-      </S.Container>
-    </MenuProvider>
+        </View>
+      </S.UserInfo>
+      <S.Title>{title}</S.Title>
+      <S.Description>{description}</S.Description>
+    </S.Container>
   );
 };
 
