@@ -1,11 +1,14 @@
 import Post from "@/components/post";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { View, ScrollView } from "react-native";
-import { MenuProvider } from "react-native-popup-menu";
-import styled from "styled-components/native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 
-const FeedScreen = () => {
-  const userType = "teacher";
+interface FeedScreenProps {
+  navigation: StackNavigationProp<any>; 
+  userType?: 'teacher' | 'student'; 
+}
+
+const FeedScreen = ({ navigation, userType = "teacher" }: FeedScreenProps) => {
   const posts = [
     {
       id: "1",
@@ -80,10 +83,13 @@ const FeedScreen = () => {
   ];
 
   return (
-    <MenuProvider>
       <ScrollView>
         {posts.map(({ id, title, userName, description }) => (
-          <View key={id}>
+          <TouchableOpacity
+            key={id}
+            onPress={() => navigation.navigate('PostDetails', { id, title, userName, description, userType })}
+          >
+          <View>
             <Post
               userType={userType}
               title={title}
@@ -91,9 +97,9 @@ const FeedScreen = () => {
               userName={userName}
             />
           </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
-    </MenuProvider>
   );
 };
 
