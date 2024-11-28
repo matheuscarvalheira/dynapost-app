@@ -18,6 +18,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/LoginScreen";
 import PostDetailsScreen from "./screens/PostDetails";
 import { MenuProvider } from "react-native-popup-menu";
+import EscolherTurmaScreen from "./screens/EscolherTurmaScreen";
+import { EscolherTurmaProps } from "./screens/EscolherTurmaScreen/props";
 
 const Stack = createStackNavigator();
 
@@ -57,15 +59,19 @@ export default function CheckLogin() {
     );
   }
 
+  const App: React.FC = () => {
+    return <CheckLogin />;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <MenuProvider>
         <Stack.Navigator>
           {isLoggedIn ? (
             <Stack.Screen
-              name="Home"
+              name="EscolherTurma"
               options={{ headerShown: false }}
-              component={TabNavigator}
+              component={(props: EscolherTurmaProps) => <EscolherTurmaScreen {...props} onSubmit={() => {}} />}
             />
           ) : (
             <Stack.Screen name="Login" component={LoginScreen} />

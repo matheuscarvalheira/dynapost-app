@@ -12,7 +12,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const handleLogin = () => {
     if (email === 'test@example.com' && password === 'password') {
-      navigation.replace('Home');
+      navigation.replace('EscolherTurma');
     } else {
       alert('Invalid credentials');
     }
