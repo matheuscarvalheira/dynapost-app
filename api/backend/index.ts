@@ -1,10 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NEXT_PUBLIC_BACKEND_URL } from '@env';
+
+const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 function getApiClient(): AxiosInstance {
   const api = axios.create({
-    baseURL: NEXT_PUBLIC_BACKEND_URL,
+    baseURL: backendUrl,
   });
 
   async function setAuthToken() {
