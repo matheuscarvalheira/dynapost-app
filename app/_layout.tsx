@@ -68,7 +68,13 @@ export default function CheckLogin() {
               component={TabNavigator}
             />
           ) : (
-            <Stack.Screen name="Login" component={LoginScreen} />
+            // <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+            name="Home"
+            options={{ headerShown: false }}
+            component={TabNavigator}
+          />
+            
           )}
         </Stack.Navigator>
       </MenuProvider>
