@@ -12,12 +12,10 @@ import {
   Inter_400Regular,
   Inter_500Medium,
 } from "@expo-google-fonts/inter";
-import TabNavigator from "./navigation/TabNavigator";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "./screens/LoginScreen";
-import PostDetailsScreen from "./screens/PostDetails";
 import { MenuProvider } from "react-native-popup-menu";
+import Routes from "@/routes";
 
 const Stack = createStackNavigator();
 
@@ -57,20 +55,14 @@ export default function CheckLogin() {
     );
   }
 
+  const App: React.FC = () => {
+    return <CheckLogin />;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <MenuProvider>
-        <Stack.Navigator>
-          {isLoggedIn ? (
-            <Stack.Screen
-              name="Home"
-              options={{ headerShown: false }}
-              component={TabNavigator}
-            />
-          ) : (
-            <Stack.Screen name="Login" component={LoginScreen} />
-          )}
-        </Stack.Navigator>
+        <Routes />
       </MenuProvider>
     </ThemeProvider>
   );
