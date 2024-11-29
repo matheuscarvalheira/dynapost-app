@@ -29,22 +29,22 @@ const TabNavigator = () => {
 
           if (route.name === 'Feed') {
             iconName = focused
-              ? require('../../assets/images/tab-menu-icons/feed-active.png')
-              : require('../../assets/images/tab-menu-icons/feed.png');
+              ? require('@/assets/images/tab-menu-icons/feed-active.png')
+              : require('@/assets/images/tab-menu-icons/feed.png');
           } else if (route.name === 'Search') {
             iconName = focused
-              ? require('../../assets/images/tab-menu-icons/search-active.png')
-              : require('../../assets/images/tab-menu-icons/search.png');
+              ? require('@/assets/images/tab-menu-icons/search-active.png')
+              : require('@/assets/images/tab-menu-icons/search.png');
           } else if (route.name === 'NewPost') {
-            iconName = require('../../assets/images/tab-menu-icons/new-post.png');
+            iconName = require('@/assets/images/tab-menu-icons/new-post.png');
           } else if (route.name === 'TeachersList') {
             iconName = focused
-              ? require('../../assets/images/tab-menu-icons/teachers-list-active.png')
-              : require('../../assets/images/tab-menu-icons/teachers-list.png');
+              ? require('@/assets/images/tab-menu-icons/teachers-list-active.png')
+              : require('@/assets/images/tab-menu-icons/teachers-list.png');
           } else if (route.name === 'StudentsList') {
             iconName = focused
-              ? require('../../assets/images/tab-menu-icons/students-list-active.png')
-              : require('../../assets/images/tab-menu-icons/students-list.png');
+              ? require('@/assets/images/tab-menu-icons/students-list-active.png')
+              : require('@/assets/images/tab-menu-icons/students-list.png');
           }
 
           return <Image source={iconName} style={{ width: (route.name === 'NewPost' ? 45 : 35), height: (route.name === 'NewPost' ? 45 : 35) }} />;
