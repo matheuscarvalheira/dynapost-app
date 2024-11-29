@@ -1,13 +1,18 @@
+import React, { useState } from 'react';
+import styled from 'styled-components/native';
 import ListItems from '@/components/listItems';
 import MainHeader from '@/components/main-header';
-import React from 'react';
-import { View, Text } from 'react-native';
-import styled from 'styled-components/native';
+import AddButton from '@/components/addbutton';
 
 const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  background-color: white;
+`;
+
+const ButtonContainer = styled.View`
+  margin: 20px 0;
 `;
 
 const users = [
@@ -24,9 +29,18 @@ const handleEdit = (id: string) => {
 };
 
 const TeachersListScreen = () => {
+  const [searchText, setSearchText] = useState('');
+
   return (
     <Container>
       <MainHeader />
+      <ButtonContainer>
+        <AddButton 
+          onPress={() => console.log('Add new teacher')}
+          icon={require('@/assets/images/plus.png')}
+          buttonText="Adicionar Professor"
+        />
+      </ButtonContainer>
       <ListItems list={users} teacherList={true} handleDelete={handleDelete} handleEdit={handleEdit} />
     </Container>
   );
