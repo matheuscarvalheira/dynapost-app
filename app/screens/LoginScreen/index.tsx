@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import Input from '@/components/input';
 import Button from '@/components/button';
 import { LoginScreenProps } from './props';
 import styles from './styles';
 
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     if (email === 'test@example.com' && password === 'password') {
-      navigation.replace('Home');
+      // navigation.replace('Home');
     } else {
       alert('Invalid credentials');
     }
@@ -41,10 +41,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <Button onPress={handleLogin} style={styles.button}>
           Entrar
         </Button>
-        <Button onPress={handleCriarConta} style={styles.button}>
-          Cadastrar
-        </Button>
-        </View>
+      </View>
+      <Text style={styles.orText}>ou</Text>
+      <Text style={styles.createAccountText}>Criar uma nova conta</Text>
 	  </View>
   );
 };
