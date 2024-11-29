@@ -6,13 +6,13 @@ import { LoginScreenProps } from './props';
 import styles from './styles';
 
 
-const LoginScreen: React.FC = () => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     if (email === 'test@example.com' && password === 'password') {
-      // navigation.replace('Home');
+      // navigation.replace('EscolherTurma');
     } else {
       alert('Invalid credentials');
     }

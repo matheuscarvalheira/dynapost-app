@@ -55,6 +55,10 @@ export default function CheckLogin() {
     );
   }
 
+  const App: React.FC = () => {
+    return <CheckLogin />;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <MenuProvider>
