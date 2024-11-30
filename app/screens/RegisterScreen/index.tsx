@@ -15,9 +15,7 @@ interface RegisterScreenProps {
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   return (
     <View style={styles.container}>
-      <SignUpForm onSubmit={function (values: { name: string; email: string; password: string; }): void {
-        throw new Error('Function not implemented.');
-      } } />
+      <SignUpForm />
       <Button title="Go to Login" onPress={() => navigation.goBack()} />
     </View>
   );

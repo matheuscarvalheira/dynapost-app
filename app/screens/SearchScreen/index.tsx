@@ -73,11 +73,13 @@ const SearchScreen = () => {
           ) : (
             <ScrollView>
               {searchedPosts && searchedPosts.map(({ id, title, teacher_name, body }) => (
-                <Post
-                  title={title}
-                  description={body}
-                  userName={teacher_name}
-                />
+                <View key={id}>
+                  <Post
+                    title={title}
+                    description={body}
+                    userName={teacher_name}
+                  />
+                </View>
               ))}
             </ScrollView>
           )}

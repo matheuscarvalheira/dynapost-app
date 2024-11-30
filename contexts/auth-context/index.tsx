@@ -9,7 +9,7 @@ import {
   SignInProps,
   SignResult,
 } from "./types";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
 
 const FREE_ACCESS_PATHNAMES = ["login", "register"];
@@ -17,13 +17,13 @@ const FREE_ACCESS_PATHNAMES = ["login", "register"];
 export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const navigation = useNavigation();
-  const route = useRoute();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [userId, setUserId] = useState("");
   const [userType, setUserType] = useState("");
-
+  const [allClassrooms, setAllClassrooms] = useState([]);
+  const navigation = useNavigation();
   // useEffect(() => {
   //   async function fetchUser(token: string) {
   //     try {
@@ -54,34 +54,49 @@ export function AuthProvider({ children }: AuthProviderProps) {
   //   checkAuth();
   // }, [route.name, navigation, userId]);
 
+  async function getAllClassrooms() {
+    setLoading(true);
+    setError("");
+    try {
+      const { data } = await api.get("classrooms");
+      setAllClassrooms(data);
+    } catch (error) {
+      setError("Erro ao carregar as turmas.");
+      console.error("Failed to get classrooms", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function register({
     name,
     email,
     password,
     classrooms,
     userType,
-  }: RegisterProps): Promise<RegisteResult> {
+  }: RegisterProps) {
+    setLoading(true);
+    setError("");
     try {
-      const response = await api.post("register", {
+      const { data } = await api.post("register", {
         name,
         email,
         password,
         classrooms,
-        userType,
+        userType
       });
-      const { error, message } = response.data;
+      const { error, message } = data;
 
       if (error) {
-        console.error("Register Failed:", message);
-        return { registerOk: false, message };
+        Alert.alert(message);
+        return;
       }
-      return { registerOk: true, message };
+      Alert.alert("Conta criada");
     } catch (error) {
       console.error("Register Failed:", error);
-      return {
-        registerOk: false,
-        message: "Falha realizar o Cadastro. Tente novamente mais tarde.",
-      };
+      setError("Alguma coisa deu errado");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -108,14 +123,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function logOut() {
     await AsyncStorage.removeItem("DynaPost.Token");
     delete api.defaults.headers.common["Authorization"];
-    setUserId('');
-    setUserType('');
+    setUserId("");
+    setUserType("");
     setIsLoggedIn(false);
   }
 
+  useEffect(() => {
+    getAllClassrooms();
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ register, signIn, logOut, isLoggedIn, userId, userType }}
+      value={{
+        register,
+        signIn,
+        logOut,
+        isLoggedIn,
+        userId,
+        userType,
+        loading,
+        error,
+        allClassrooms,
+      }}
     >
       {children}
     </AuthContext.Provider>

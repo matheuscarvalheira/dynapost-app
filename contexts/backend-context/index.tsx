@@ -92,18 +92,31 @@ export function BackendProvider({ children }: BackendProviderProps) {
   //   }
   // }
 
+  // async function getAllClassrooms() {
+  //   setLoading(true);
+  //   setError('');
+  //   try {
+  //     const { data } = await api.get('classrooms');
+  //     setAllClassrooms(data);
+  //   } catch (error) {
+  //     setError("Erro ao carregar as turmas.");
+  //     console.error("Failed to get classrooms", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+
   async function createPost({
     title,
     body,
     published,
-    classroom_id,
   }: Post): Promise<CreatePostResult> {
     try {
       const { data } = await api.post("posts", {
         title,
         body,
         published,
-        classroom_id,
+        classroom_id: selectedClassroom,
         teacher_id: userId,
       });
       return {

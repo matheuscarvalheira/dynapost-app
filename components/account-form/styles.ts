@@ -22,3 +22,9 @@ export const CheckBoxContainer = styled.View`
   margin-top: 5px;
   margin-bottom: 10px;
 `;
+
+export const TitleText = styled.Text`
+  font-size: 30;
+  text-align: center;
+  margin-bottom: 30;
+`

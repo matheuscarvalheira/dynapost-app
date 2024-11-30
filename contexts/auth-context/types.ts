@@ -7,12 +7,15 @@ export interface AuthContextProps {
     password,
     classrooms,
     userType,
-  }: RegisterProps) => Promise<RegisteResult>;
+  }: RegisterProps) => void;
   signIn: ({ email, password }: SignInProps) => void;
   logOut: () => void;
+  loading: boolean;
+  error: string;
   isLoggedIn: boolean;
   userId: string;
   userType: string;
+  allClassrooms: Classroom[] | []
 }
 
 export interface AuthProviderProps {
@@ -24,7 +27,7 @@ export interface RegisterProps {
   name: string | undefined;
   email: string | undefined;
   password: string | undefined;
-  classrooms: string[] | undefined;
+  classrooms?: string[] | [];
   userType: string | undefined;
 }
 
