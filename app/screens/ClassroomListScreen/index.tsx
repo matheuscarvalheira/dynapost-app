@@ -9,13 +9,12 @@ import {
 import { ClassroomListProps } from "./props";
 import { useContext } from "react";
 import { BackendContext } from "@/contexts/backend-context";
+import MainHeader from "@/components/main-header";
 
 const ClassroomListScreen =  ({ navigation }: ClassroomListProps) => {
-  // const classrooms = ['item 1', 'item 2', 'item 3'];
   const { classrooms, loading, error } = useContext(BackendContext);
 
   if (loading) {
-    // Show loading indicator while data is being fetched
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -25,7 +24,6 @@ const ClassroomListScreen =  ({ navigation }: ClassroomListProps) => {
   }
 
   if (error) {
-    // Show error message if there was an error fetching the data
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>{error}</Text>
@@ -35,8 +33,10 @@ const ClassroomListScreen =  ({ navigation }: ClassroomListProps) => {
 
   return (
     <View style={styles.container}>
+      <MainHeader />
       <Text style={styles.header}>Classrooms</Text>
         <FlatList
+          style={styles.itemList}
           data={classrooms}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f7f7f7",
+  },
+  itemList: {
     paddingHorizontal: 20,
   },
   header: {
