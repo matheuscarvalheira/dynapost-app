@@ -60,7 +60,12 @@ const FeedScreen = ({ navigation }: FeedScreenProps) => {
           }
         >
           <View>
-            <Post title={title} description={body} userName={teacher_name} />
+            <Post
+              title={title}
+              description={body}
+              userName={teacher_name}
+              id={id}
+            />
           </View>
         </TouchableOpacity>
       ))}

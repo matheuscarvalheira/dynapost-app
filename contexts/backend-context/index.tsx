@@ -60,9 +60,7 @@ export function BackendProvider({ children }: BackendProviderProps) {
     }
   }
 
-  async function getSearchedPosts({
-    queryString,
-  }: GetSearchedPostsProps) {
+  async function getSearchedPosts({ queryString }: GetSearchedPostsProps) {
     setLoading(true);
     setError("");
     try {
@@ -71,16 +69,16 @@ export function BackendProvider({ children }: BackendProviderProps) {
       );
       setSearchedPosts(data);
     } catch (error) {
-      setError("Erro ao carregar posts")
+      setError("Erro ao carregar posts");
       console.error("Failed to get Posts:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   const cleanPostSearch = () => {
-    setSearchedPosts([])
-  }
+    setSearchedPosts([]);
+  };
 
   // async function getPost({ postId }: GetPostProps): Promise<GetPostResult> {
   //   try {
@@ -89,20 +87,6 @@ export function BackendProvider({ children }: BackendProviderProps) {
   //   } catch (error) {
   //     console.error('Failed to get Post:', error);
   //     return { getPostOk: false, message: 'Falha ao obter as Postagens. Tente novamente mais Tarde.', post: null };
-  //   }
-  // }
-
-  // async function getAllClassrooms() {
-  //   setLoading(true);
-  //   setError('');
-  //   try {
-  //     const { data } = await api.get('classrooms');
-  //     setAllClassrooms(data);
-  //   } catch (error) {
-  //     setError("Erro ao carregar as turmas.");
-  //     console.error("Failed to get classrooms", error);
-  //   } finally {
-  //     setLoading(false);
   //   }
   // }
 
@@ -157,23 +141,19 @@ export function BackendProvider({ children }: BackendProviderProps) {
     }
   }
 
-  async function deletePost({ id }: Post): Promise<DeletePostResult> {
+  async function deletePost({ id }: { id: string }) {
+    setLoading(true);
+    setError("");
     try {
       const { status } = await api.delete(`posts/${id}`);
       if (status === 204) {
-        return { deletePostOk: true, message: "Postagem Apagada com Sucesso!" };
-      } else {
-        return {
-          deletePostOk: false,
-          message: "Falha ao Apagar a Postagem. Tente novamente mais Tarde.",
-        };
+        getAllPosts();
       }
     } catch (error) {
       console.error("Failed to Delete Post:", error);
-      return {
-        deletePostOk: false,
-        message: "Falha ao Apagar a Postagem. Tente novamente mais Tarde.",
-      };
+      setError("Erro ao tentar apagar o post");
+    } finally {
+      setLoading(false);
     }
   }
 

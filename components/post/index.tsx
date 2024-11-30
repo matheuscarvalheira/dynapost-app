@@ -9,19 +9,22 @@ import {
   MenuTrigger,
 } from "react-native-popup-menu";
 import { AuthContext } from "@/contexts/auth-context";
+import { BackendContext } from "@/contexts/backend-context";
 
 const TeacherIcon = require("@/assets/images/teacher.png");
 // const StudentIcon = require("@/assets/images/student.png");
 
-const Post: React.FC<PostProps> = ({ title, description, userName }) => {
+const Post: React.FC<PostProps> = ({ id, title, description, userName }) => {
   const { userType } = useContext(AuthContext);
+  const { deletePost } = useContext(BackendContext);
 
-  const handleEdit = () => {
+  const handleEdit = (id: string) => () => {
     // handle edit
   };
 
-  const handleDelete = () => {
+  const handleDelete = (id: string) => () => {
     // handle delete
+    deletePost({id})
   };
 
   return (
@@ -40,8 +43,8 @@ const Post: React.FC<PostProps> = ({ title, description, userName }) => {
                 <S.MenuTriggerText>...</S.MenuTriggerText>
               </MenuTrigger>
               <MenuOptions customStyles={S.optionsStyles}>
-                <MenuOption onSelect={handleEdit} text="Edit" />
-                <MenuOption onSelect={handleDelete} text="Delete" />
+                <MenuOption onSelect={handleEdit(id)} text="Edit" />
+                <MenuOption onSelect={handleDelete(id)} text="Delete" />
               </MenuOptions>
             </Menu>
           )}

@@ -8,7 +8,7 @@ export interface BackendContextProps {
   searchedPosts: Post[] | []
   createPost: ({ title, body, published, classroom_id }: Post) => Promise<CreatePostResult>
   updatePost: ({ id, title, body, published }: Post) => Promise<UpdatePostResult>
-  deletePost: ({ id }: Post) => Promise<DeletePostResult>
+  deletePost: ({ id }: Post) => void
   handleChooseClassroom: (id: string) => void
 }
 
@@ -67,7 +67,7 @@ export interface Classroom {
 }
 
 export interface Post {
-  id?: string,
+  id: string,
   title?: string,
   body?: string,
   published?: boolean,

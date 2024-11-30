@@ -78,6 +78,7 @@ const SearchScreen = () => {
                     title={title}
                     description={body}
                     userName={teacher_name}
+                    id={id}
                   />
                 </View>
               ))}
