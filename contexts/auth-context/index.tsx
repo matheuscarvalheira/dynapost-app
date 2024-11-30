@@ -10,7 +10,7 @@ import {
   SignResult,
 } from "./types";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import axios from "axios";
+import { Alert } from "react-native";
 
 const FREE_ACCESS_PATHNAMES = ["login", "register"];
 
@@ -85,36 +85,32 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signIn({ email, password }: SignInProps): Promise<SignResult> {
+  async function signIn({ email, password }: SignInProps) {
     try {
-      console.log(email, password)
-      // const response = await api.post("signin", { email, password });
-      const response = await axios.post("http://localhost:3000", {email, password})
-      console.log("AAAAA", response)
-      const { error, userId, userType, token } = response.data;
+      const response = await api.post("signin", { email, password });
+      const { error, userId, userType, token, message } = response.data;
 
       if (error) {
-        console.error("SignIn Failed: Invalid Username or Password");
-        return { signInOk: false, message: "Usuário ou Senha Inválidos" };
+        Alert.alert(message);
       }
+
+      await AsyncStorage.setItem("DynaPost.Token", token);
 
       setUserId(userId);
       setUserType(userType);
-
-      await AsyncStorage.setItem("DynaPost.Token", token);
-      api.defaults.headers["Authorization"] = `Bearer ${token}`;
-
-      return { signInOk: true, message: "Login realizado com Sucesso!" };
+      setIsLoggedIn(true);
     } catch (error) {
-      console.error("SignIn :", error);
-      return { signInOk: false, message: "Usuário ou Senha Inválidos" };
+      console.log("Error :", error);
+      Alert.alert("Ocorreu um erro ao tentar autenticar a aplicação");
     }
   }
 
   async function logOut() {
     await AsyncStorage.removeItem("DynaPost.Token");
     delete api.defaults.headers.common["Authorization"];
-    navigation.navigate("Login" as never);
+    setUserId('');
+    setUserType('');
+    setIsLoggedIn(false);
   }
 
   return (

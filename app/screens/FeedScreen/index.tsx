@@ -1,7 +1,8 @@
 import Post from "@/components/post";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity, Alert } from "react-native";
 
 interface FeedScreenProps {
   navigation: StackNavigationProp<any>; 

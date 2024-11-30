@@ -8,7 +8,7 @@ export interface AuthContextProps {
     classrooms,
     userType,
   }: RegisterProps) => Promise<RegisteResult>;
-  signIn: ({ email, password }: SignInProps) => Promise<SignResult>;
+  signIn: ({ email, password }: SignInProps) => void;
   logOut: () => void;
   isLoggedIn: boolean;
   userId: string;

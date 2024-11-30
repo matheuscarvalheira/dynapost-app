@@ -1,6 +1,6 @@
 // BackendProvider.js
-import React, { createContext, useContext } from 'react';
-import { BackendContextProps, BackendProviderProps, CreatePostResult, DeletePostResult, GetAllPostsProps, GetAllPostsResult, GetClassroomsResult, GetPostProps, GetPostResult, Post, UpdatePostResult } from './types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { BackendContextProps, BackendProviderProps, Classroom, CreatePostResult, DeletePostResult, GetAllPostsProps, GetAllPostsResult, GetClassroomsResult, GetPostProps, GetPostResult, Post, UpdatePostResult } from './types';
 import { AuthContext } from '../auth-context';
 import { api } from '@/api/backend'; 
 
@@ -8,18 +8,25 @@ export const BackendContext = createContext({} as BackendContextProps);
 
 export function BackendProvider({ children }: BackendProviderProps) {
   const { userId, userType } = useContext(AuthContext);
+  const [classrooms, setClassrooms] = useState<Classroom[] | []>([]);
+  const [selectedClassroom, setSelectedClassroom] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  async function getClassrooms(): Promise<GetClassroomsResult> {
-    if (userId.trim() === '') {
-      return { getClassroomsOk: true, classrooms: [] };
-    } else {
+  async function getClassrooms() {
+    if (userId.trim() !== '' && userType.trim() !== '') {
+      setLoading(true);
+      setError("");
       try {
-        const route = userType === 'teacher' ? 'teachers' : 'students';
-        const { data } = await api.get(`classrooms/${route}/${userId}`);
-        return { getClassroomsOk: true, classrooms: data };
+        const { data } = await api.get(`classrooms/${userType}s/${userId}`);
+        setClassrooms(data);
+        return {classrooms: data}
       } catch (error) {
         console.error('Failed to get Classrooms:', error);
+        setError("Falha ao obter as turmas");
         return { getClassroomsOk: false, message: 'Falha ao obter as Turmas. Tente novamente mais tarde.', classrooms: [] };
+      } finally {
+        setLoading(false)
       }
     }
   }
@@ -78,8 +85,12 @@ export function BackendProvider({ children }: BackendProviderProps) {
     }
   }
 
+  useEffect(() => {
+    getClassrooms()
+  }, [userId, userType])
+
   return (
-    <BackendContext.Provider value={{ getClassrooms, getAllPosts, getPost, createPost, updatePost, deletePost }}>
+    <BackendContext.Provider value={{ classrooms, loading, error, getAllPosts, getPost, createPost, updatePost, deletePost }}>
       {children}
     </BackendContext.Provider>
   );

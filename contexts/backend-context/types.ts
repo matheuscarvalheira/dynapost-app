@@ -1,5 +1,8 @@
 export interface BackendContextProps {
-  getClassrooms: () => Promise<GetClassroomsResult>
+  // getClassrooms: () => Promise<GetClassroomsResult>
+  classrooms: Classroom[] | []
+  loading: boolean
+  error: string
   getAllPosts: ({ classroomId, queryString }: GetAllPostsProps) => Promise<GetAllPostsResult>
   getPost: ({ postId }: GetPostProps) => Promise<GetPostResult>
   createPost: ({ title, body, published, classroom_id }: Post) => Promise<CreatePostResult>
@@ -58,6 +61,8 @@ export interface DeletePostResult {
 export interface Classroom {
   id: string,
   name: string,
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export interface Post {
