@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "../styles/theme";
 import {
@@ -13,14 +13,13 @@ import {
   Inter_500Medium,
 } from "@expo-google-fonts/inter";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { MenuProvider } from "react-native-popup-menu";
-import Routes from "@/routes";
-
-const Stack = createStackNavigator();
+import { useRouter } from "expo-router";
+import { Stack } from "expo-router";
 
 export default function CheckLogin() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const route = useRouter();
 
   // Carregando as fontes
   const [fontsLoaded] = useFonts({
@@ -32,14 +31,14 @@ export default function CheckLogin() {
     Inter_500Medium,
   });
 
-    useEffect(() => {
-  	const checkLoginStatus = async () => {
-  	  const loggedIn = await fakeAuthCheck();
-  	  setIsLoggedIn(loggedIn as boolean);
-  	};
+  // useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     const loggedIn = await fakeAuthCheck();
+  //     setIsLoggedIn(loggedIn as boolean);
+  //   };
 
-  	checkLoginStatus();
-    }, []);
+  //   checkLoginStatus();
+  // }, []);
 
   const fakeAuthCheck = async () => {
     // Simula uma verificação de aut
@@ -62,7 +61,7 @@ export default function CheckLogin() {
   return (
     <ThemeProvider theme={theme}>
       <MenuProvider>
-        <Routes />
+        <Stack screenOptions={{ headerShown: false }} />
       </MenuProvider>
     </ThemeProvider>
   );

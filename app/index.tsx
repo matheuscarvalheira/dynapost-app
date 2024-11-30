@@ -1,10 +1,10 @@
-import { View } from "react-native";
+import { AuthProvider } from "@/contexts/auth-context";
+import MainStack from "./navigation/MainStack";
 
 export default function Index() {
   return (
-    <View
-    >
-
-    </View>
+    <AuthProvider>
+      <MainStack />
+    </AuthProvider>
   );
 }

@@ -6,6 +6,9 @@ const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 function getApiClient(): AxiosInstance {
   const api = axios.create({
     baseURL: backendUrl,
+    headers: {
+      "Content-Type": "application/json"
+    }
   });
 
   async function setAuthToken() {

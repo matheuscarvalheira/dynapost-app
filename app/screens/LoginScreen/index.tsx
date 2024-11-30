@@ -1,30 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import Input from '@/components/input';
-import Button from '@/components/button';
-import { LoginScreenProps } from './props';
-import styles from './styles';
-
+import React, { useContext, useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import Input from "@/components/input";
+import Button from "@/components/button";
+import { LoginScreenProps } from "./props";
+import styles from "./styles";
+import { AuthContext } from "@/contexts/auth-context";
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { signIn } = useContext(AuthContext);
 
   const handleLogin = () => {
-    if (email === 'test@example.com' && password === 'password') {
-      // navigation.replace('EscolherTurma');
-    } else {
-      alert('Invalid credentials');
+    if (email && password) {
+      signIn({ email, password });
     }
   };
 
-  const handleCriarConta = () => {
-    console.log('Tela criar conta');
-  };
-
   return (
-	  <View style={styles.container}>
-        <Input
+    <View style={styles.container}>
+      <Input
         style={styles.input}
         placeholder="E-mail *"
         value={email}
@@ -43,8 +39,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         </Button>
       </View>
       <Text style={styles.orText}>ou</Text>
-      <Text style={styles.createAccountText}>Criar uma nova conta</Text>
-	  </View>
+      {/* @ts-ignore */}
+      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <Text style={styles.createAccountText}>Criar uma nova conta</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
