@@ -16,36 +16,33 @@ const PostScreen = ({ post }: NewPostScreenProps) => {
   };
 
   return (
-    <>
-      <MainHeader />
-      <S.Container>
-        <S.ChildContainer>
-          <Input
-            placeholder="Título"
-            value={newPost?.title}
-            onChangeText={(newTitle) => {
-              setNewPost({ ...newPost, title: newTitle });
-            }}
-          />
-          <Input
-            placeholder="Conteúdo"
-            value={newPost?.body}
-            onChangeText={(newBody) => {
-              setNewPost({ ...newPost, body: newBody });
-            }}
-            multiline
-            style={{ flex: 1 }}
-          />
-          <S.ButtonContainer>
-            <Button onPress={handleSubmit}>
-              {newPost?.id !== undefined && newPost.id.trim() !== ""
-                ? "Editar"
-                : "Publicar"}
-            </Button>
-          </S.ButtonContainer>
-        </S.ChildContainer>
-      </S.Container>
-    </>
+    <S.Container>
+      <S.ChildContainer>
+        <Input
+          placeholder="Título"
+          value={newPost?.title}
+          onChangeText={(newTitle) => {
+            setNewPost({ ...newPost, title: newTitle });
+          }}
+        />
+        <Input
+          placeholder="Conteúdo"
+          value={newPost?.body}
+          onChangeText={(newBody) => {
+            setNewPost({ ...newPost, body: newBody });
+          }}
+          multiline
+          style={{ flex: 1 }}
+        />
+        <S.ButtonContainer>
+          <Button onPress={handleSubmit}>
+            {newPost?.id !== undefined && newPost.id.trim() !== ""
+              ? "Editar"
+              : "Publicar"}
+          </Button>
+        </S.ButtonContainer>
+      </S.ChildContainer>
+    </S.Container>
   );
 };
 

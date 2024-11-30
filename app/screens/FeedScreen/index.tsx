@@ -1,6 +1,4 @@
-import Post from "@/components/post";
-import { BackendContext } from "@/contexts/backend-context";
-import { StackNavigationProp } from "@react-navigation/stack";
+// FeedScreen.tsx
 import React, { useContext } from "react";
 import {
   View,
@@ -10,6 +8,9 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { BackendContext } from "@/contexts/backend-context";
+import Post from "@/components/post";
 
 interface FeedScreenProps {
   navigation: StackNavigationProp<any>;
@@ -59,14 +60,13 @@ const FeedScreen = ({ navigation }: FeedScreenProps) => {
             })
           }
         >
-          <View>
-            <Post
-              title={title}
-              description={body}
-              userName={teacher_name}
-              id={id}
-            />
-          </View>
+          <Post
+            title={title}
+            description={body}
+            userName={teacher_name}
+            id={id}
+            navigation={navigation}
+          />
         </TouchableOpacity>
       ))}
     </ScrollView>

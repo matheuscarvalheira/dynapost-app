@@ -9,6 +9,7 @@ import TeachersListScreen from "../screens/TeachersListScreen";
 import StudentsListScreen from "../screens/StudentsListScreen";
 import FeedStack from "../screens/FeedStack";
 import { AuthContext } from "@/contexts/auth-context";
+import MainHeader from "@/components/main-header";
 
 type RootTabParamList = {
   Feed: undefined;
@@ -81,7 +82,11 @@ const TabNavigator = () => {
       <Tab.Screen name="Search" component={Search} />
       {userType === "teacher" && (
         <>
-          <Tab.Screen name="NewPost" component={PostScreen} />
+          <Tab.Screen
+            name="NewPost"
+            options={{ header: () => <MainHeader />, headerShown: true }}
+            component={PostScreen}
+          />
           <Tab.Screen name="TeachersList" component={TeachersListScreen} />
           <Tab.Screen name="StudentsList" component={StudentsListScreen} />
         </>

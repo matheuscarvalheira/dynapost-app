@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import FeedScreen from '../FeedScreen';
 import PostDetails from '../PostDetails';
+import PostScreen from '../PostScreen';
 
 const Stack = createStackNavigator();
 
@@ -8,8 +9,17 @@ const FeedStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Feed" component={FeedScreen} />
-      {/* @ts-ignore */}
-      <Stack.Screen name="PostDetails" options={{headerTitle: "Post Details"}} component={PostDetails} />
+      <Stack.Screen
+        name="PostDetails"
+        options={{ headerTitle: "Post Details" }}
+        // @ts-ignore
+        component={PostDetails}
+      />
+      <Stack.Screen
+        name="EditScreen"
+        options={{ headerTitle: "Edit Post" }}
+        component={PostScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -14,12 +14,23 @@ import { BackendContext } from "@/contexts/backend-context";
 const TeacherIcon = require("@/assets/images/teacher.png");
 // const StudentIcon = require("@/assets/images/student.png");
 
-const Post: React.FC<PostProps> = ({ id, title, description, userName }) => {
+const Post: React.FC<PostProps> = ({
+  id,
+  title,
+  description,
+  userName,
+  navigation,
+}) => {
   const { userType } = useContext(AuthContext);
   const { deletePost } = useContext(BackendContext);
 
-  const handleEdit = (id: string) => () => {
-    // handle edit
+  const handleEdit = () => {
+      navigation?.navigate("EditScreen", {
+        id,
+        title,
+        description,
+        userName,
+      });
   };
 
   const handleDelete = (id: string) => () => {
@@ -58,7 +69,7 @@ const Post: React.FC<PostProps> = ({ id, title, description, userName }) => {
                 <S.MenuTriggerText>...</S.MenuTriggerText>
               </MenuTrigger>
               <MenuOptions customStyles={S.optionsStyles}>
-                <MenuOption onSelect={handleEdit(id)} text="Edit" />
+                <MenuOption onSelect={handleEdit} text="Edit" />
                 <MenuOption onSelect={handleDelete(id)} text="Delete" />
               </MenuOptions>
             </Menu>
