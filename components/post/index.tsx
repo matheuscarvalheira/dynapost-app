@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Image, View } from "react-native";
+import { Alert, Image, View } from "react-native";
 import * as S from "./styles";
 import { PostProps } from "./props";
 import {
@@ -23,8 +23,23 @@ const Post: React.FC<PostProps> = ({ id, title, description, userName }) => {
   };
 
   const handleDelete = (id: string) => () => {
-    // handle delete
-    deletePost({id})
+    Alert.alert(
+      "Confirme que quer apagar",
+      "Você tem certeza que quer apagar esse post?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            deletePost({ id });
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (
