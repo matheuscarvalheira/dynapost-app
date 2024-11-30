@@ -34,17 +34,17 @@ const Post: React.FC<PostProps> = ({ title, description, userName }) => {
         />
         <S.UserName>{userName}</S.UserName>
         <View>
-          <Menu>
-            {userType === "teacher" && (
+          {userType === "teacher" && (
+            <Menu>
               <MenuTrigger>
                 <S.MenuTriggerText>...</S.MenuTriggerText>
               </MenuTrigger>
-            )}
-            <MenuOptions customStyles={S.optionsStyles}>
-              <MenuOption onSelect={handleEdit} text="Edit" />
-              <MenuOption onSelect={handleDelete} text="Delete" />
-            </MenuOptions>
-          </Menu>
+              <MenuOptions customStyles={S.optionsStyles}>
+                <MenuOption onSelect={handleEdit} text="Edit" />
+                <MenuOption onSelect={handleDelete} text="Delete" />
+              </MenuOptions>
+            </Menu>
+          )}
         </View>
       </S.UserInfo>
       <S.Title>{title}</S.Title>

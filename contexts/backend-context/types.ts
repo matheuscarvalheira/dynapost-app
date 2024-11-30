@@ -1,11 +1,11 @@
 export interface BackendContextProps {
-  // getClassrooms: () => Promise<GetClassroomsResult>
   classrooms: Classroom[] | []
   postList: Post[] | []
   loading: boolean
   error: string
-  getSearchedPosts: ({ classroomId, queryString }: GetAllPostsProps) => Promise<GetAllPostsResult>
-  // getPost: ({ postId }: GetPostProps) => Promise<GetPostResult>
+  getSearchedPosts: ({ queryString }: GetSearchedPostsProps) => void
+  cleanPostSearch: () => void
+  searchedPosts: Post[] | []
   createPost: ({ title, body, published, classroom_id }: Post) => Promise<CreatePostResult>
   updatePost: ({ id, title, body, published }: Post) => Promise<UpdatePostResult>
   deletePost: ({ id }: Post) => Promise<DeletePostResult>
@@ -22,8 +22,7 @@ export interface GetClassroomsResult {
   classrooms: Classroom[]
 }
 
-export interface GetAllPostsProps {
-  classroomId: string | undefined | unknown
+export interface GetSearchedPostsProps {
   queryString?: string | undefined | unknown
 }
 

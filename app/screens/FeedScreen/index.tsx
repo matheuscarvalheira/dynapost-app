@@ -2,15 +2,21 @@ import Post from "@/components/post";
 import { BackendContext } from "@/contexts/backend-context";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useContext } from "react";
-import { View, ScrollView, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 
 interface FeedScreenProps {
-  navigation: StackNavigationProp<any>; 
+  navigation: StackNavigationProp<any>;
 }
 
 const FeedScreen = ({ navigation }: FeedScreenProps) => {
-
-  const {postList: posts, loading, error} = useContext(BackendContext);
+  const { postList: posts, loading, error } = useContext(BackendContext);
 
   if (loading) {
     return (
@@ -31,29 +37,34 @@ const FeedScreen = ({ navigation }: FeedScreenProps) => {
 
   if (posts.length === 0) {
     return (
-    <View style={styles.container}>
-      <Text style={styles.noPostsText}>Não há postagens para essa turma.</Text>
-    </View>
-    )
+      <View style={styles.container}>
+        <Text style={styles.noPostsText}>
+          Não há postagens para essa turma.
+        </Text>
+      </View>
+    );
   }
 
   return (
-      <ScrollView>
-        {posts.map(({ id, title, teacher_name, body }) => (
-          <TouchableOpacity
-            key={id}
-            onPress={() => navigation.navigate('PostDetails', { id, title, userName: teacher_name, description: body })}
-          >
+    <ScrollView>
+      {posts.map(({ id, title, teacher_name, body }) => (
+        <TouchableOpacity
+          key={id}
+          onPress={() =>
+            navigation.navigate("PostDetails", {
+              id,
+              title,
+              userName: teacher_name,
+              description: body,
+            })
+          }
+        >
           <View>
-            <Post
-              title={title}
-              description={body}
-              userName={teacher_name}
-            />
+            <Post title={title} description={body} userName={teacher_name} />
           </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 };
 
@@ -72,8 +83,8 @@ const styles = StyleSheet.create({
   },
   noPostsText: {
     fontSize: 18,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 export default FeedScreen;

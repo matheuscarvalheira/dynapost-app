@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components/native';
-import ListItems from '@/components/listItems';
-import MainHeader from '@/components/main-header';
-import AddButton from '@/components/addbutton';
+import React, { useContext, useState } from "react";
+import styled from "styled-components/native";
+import ListItems from "@/components/listItems";
+import MainHeader from "@/components/main-header";
+import AddButton from "@/components/addbutton";
+import { AuthContext } from "@/contexts/auth-context";
 
 const Container = styled.View`
   flex: 1;
@@ -16,8 +17,8 @@ const ButtonContainer = styled.View`
 `;
 
 const users = [
-  { id: '1', name: 'Professor A', userType: 'professor' },
-  { id: '2', name: 'Professor B', userType: 'professor' },
+  { id: "1", name: "Professor A", userType: "professor" },
+  { id: "2", name: "Professor B", userType: "professor" },
 ];
 
 const handleDelete = (id: string) => {
@@ -29,19 +30,27 @@ const handleEdit = (id: string) => {
 };
 
 const TeachersListScreen = () => {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const { userType } = useContext(AuthContext);
 
   return (
     <Container>
       <MainHeader />
-      <ButtonContainer>
-        <AddButton 
-          onPress={() => console.log('Add new teacher')}
-          icon={require('@/assets/images/plus.png')}
-          buttonText="Adicionar Professor"
-        />
-      </ButtonContainer>
-      <ListItems list={users} teacherList={true} handleDelete={handleDelete} handleEdit={handleEdit} />
+      {userType === "teacher" && (
+        <ButtonContainer>
+          <AddButton
+            onPress={() => console.log("Add new teacher")}
+            icon={require("@/assets/images/plus.png")}
+            buttonText="Adicionar Professor"
+          />
+        </ButtonContainer>
+      )}
+      <ListItems
+        list={users}
+        teacherList={true}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+      />
     </Container>
   );
 };

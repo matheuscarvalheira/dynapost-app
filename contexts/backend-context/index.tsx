@@ -6,8 +6,7 @@ import {
   Classroom,
   CreatePostResult,
   DeletePostResult,
-  GetAllPostsProps,
-  GetAllPostsResult,
+  GetSearchedPostsProps,
   Post,
   UpdatePostResult,
 } from "./types";
@@ -23,6 +22,7 @@ export function BackendProvider({ children }: BackendProviderProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [postList, setPostList] = useState<Post[] | []>([]);
+  const [searchedPosts, setSearchedPosts] = useState<Post[] | []>([]);
 
   async function getClassrooms() {
     if (userId.trim() !== "" && userType.trim() !== "") {
@@ -61,22 +61,25 @@ export function BackendProvider({ children }: BackendProviderProps) {
   }
 
   async function getSearchedPosts({
-    classroomId,
     queryString,
-  }: GetAllPostsProps): Promise<GetAllPostsResult> {
+  }: GetSearchedPostsProps) {
+    setLoading(true);
+    setError("");
     try {
       const { data } = await api.get(
-        `/posts/search/${classroomId}?q=${queryString}`
+        `posts/search/${selectedClassroom}?q=${queryString}`
       );
-      return { getAllPostsOk: true, posts: data };
+      setSearchedPosts(data);
     } catch (error) {
+      setError("Erro ao carregar posts")
       console.error("Failed to get Posts:", error);
-      return {
-        getAllPostsOk: false,
-        message: "Falha ao obter as Postagens. Tente novamente mais Tarde.",
-        posts: [],
-      };
+    } finally {
+      setLoading(false)
     }
+  }
+
+  const cleanPostSearch = () => {
+    setSearchedPosts([])
   }
 
   // async function getPost({ postId }: GetPostProps): Promise<GetPostResult> {
@@ -176,6 +179,8 @@ export function BackendProvider({ children }: BackendProviderProps) {
         postList,
         handleChooseClassroom,
         getSearchedPosts,
+        cleanPostSearch,
+        searchedPosts,
         loading,
         error,
         createPost,
