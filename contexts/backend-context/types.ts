@@ -7,7 +7,7 @@ export interface BackendContextProps {
   cleanPostSearch: () => void
   searchedPosts: Post[] | []
   createPost: ({ title, body, published, classroom_id }: Post) => Promise<CreatePostResult>
-  updatePost: ({ id, title, body, published }: Post) => Promise<UpdatePostResult>
+  updatePost: ({ id, title, body, published }: Post) => void
   deletePost: ({ id }: Post) => void
   handleChooseClassroom: (id: string) => void
 }

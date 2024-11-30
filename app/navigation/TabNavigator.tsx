@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Feed from "../screens/FeedScreen";
 import Search from "@/app/screens/SearchScreen";
 import { Image } from "react-native";
 import { RouteProp } from "@react-navigation/native";

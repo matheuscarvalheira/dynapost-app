@@ -5,10 +5,8 @@ import {
   BackendProviderProps,
   Classroom,
   CreatePostResult,
-  DeletePostResult,
   GetSearchedPostsProps,
   Post,
-  UpdatePostResult,
 } from "./types";
 import { AuthContext } from "../auth-context";
 import { api } from "@/api/backend";
@@ -90,19 +88,15 @@ export function BackendProvider({ children }: BackendProviderProps) {
   //   }
   // }
 
-  async function createPost({
-    title,
-    body,
-    published,
-  }: Post): Promise<CreatePostResult> {
+  async function createPost({ title, body }: Post): Promise<CreatePostResult> {
     try {
       const { data } = await api.post("posts", {
         title,
         body,
-        published,
         classroom_id: selectedClassroom,
         teacher_id: userId,
       });
+      getAllPosts();
       return {
         createPostOk: true,
         message: "Postagem Criada com Sucesso!",
@@ -118,14 +112,12 @@ export function BackendProvider({ children }: BackendProviderProps) {
     }
   }
 
-  async function updatePost({
-    id,
-    title,
-    body,
-    published,
-  }: Post): Promise<UpdatePostResult> {
+  async function updatePost({ id, title, body }: Post) {
+    setLoading(true);
+    setError("");
     try {
-      const { data } = await api.put(`posts/${id}`, { title, body, published });
+      const { data } = await api.put(`posts/${id}`, { title, body });
+      getAllPosts();
       return {
         updatePostOk: true,
         message: "Postagem Alterada com Sucesso!",
@@ -133,11 +125,9 @@ export function BackendProvider({ children }: BackendProviderProps) {
       };
     } catch (error) {
       console.error("Failed to Update Post:", error);
-      return {
-        updatePostOk: false,
-        message: "Falha na Alteração da Postagem. Tente novamente mais Tarde.",
-        post: null,
-      };
+      setError("Ocorreu um erro ao tentar atualizar o post.");
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -5,11 +5,9 @@ import * as Yup from "yup";
 import {
   CheckBoxContainer,
   Container,
-  ErrorText,
   TitleText,
   RadioButtonContainer,
 } from "./styles";
-import { SignUpFormProps } from "./props";
 import Button from "../button";
 import Input from "../input";
 import RadioButton from "../radio-button";
@@ -45,7 +43,7 @@ const SignUpForm = () => {
 
   const handleSubmit = (
     data: FormValues,
-    { setSubmitting }: FormikHelpers<FormValues>
+    { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
     const { accountType, password, email, name, selectedOptions } = data;
     const classroomIds = selectedOptions.map(
@@ -60,6 +58,7 @@ const SignUpForm = () => {
       classrooms: classroomIds,
     });
 
+    resetForm();
     setSubmitting(false);
   };
 

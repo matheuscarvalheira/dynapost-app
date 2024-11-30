@@ -107,13 +107,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (error) {
         Alert.alert(message);
+        return;
       }
 
-      await AsyncStorage.setItem("DynaPost.Token", token);
+      if(token && userType && userId) {
+        await AsyncStorage.setItem("DynaPost.Token", token);
+        setUserId(userId);
+        setUserType(userType);
+        setIsLoggedIn(true);
+      }
 
-      setUserId(userId);
-      setUserType(userType);
-      setIsLoggedIn(true);
     } catch (error) {
       console.log("Error :", error);
       Alert.alert("Ocorreu um erro ao tentar autenticar a aplicação");

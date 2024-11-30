@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as S from "./style";
 import Input from "@/components/input";
 import Button from "@/components/button";
-import { IPost, NewPostScreenProps } from "./props";
+import { NewPostScreenProps } from "./props";
 import { useNavigation } from "@react-navigation/native";
-import MainHeader from "@/components/main-header";
+import { BackendContext } from "@/contexts/backend-context";
 
-const PostScreen = ({ post }: NewPostScreenProps) => {
+const PostScreen = ({ route }: NewPostScreenProps) => {
   const navigation = useNavigation();
+  const { updatePost, createPost } = useContext(BackendContext);
+  const { id, title, description } = route?.params || {};
+  const [postTitle, setPostTitle] = useState(title);
+  const [postBody, setPostBody] = useState(description);
 
-  const [newPost, setNewPost] = useState<IPost | undefined>(post);
+  const handleSubmitEdit = () => {
+    updatePost({ title: postTitle, body: postBody, id });
+    navigation.goBack();
+  };
 
-  const handleSubmit = () => {
-    navigation.navigate("Feed" as never);
+  const handlePost = () => {
+    createPost({ title: postTitle, body: postBody, id });
+    setPostBody("");
+    setPostTitle("")
+    navigation.navigate("Feed" as never)
   };
 
   return (
@@ -20,25 +30,23 @@ const PostScreen = ({ post }: NewPostScreenProps) => {
       <S.ChildContainer>
         <Input
           placeholder="Título"
-          value={newPost?.title}
-          onChangeText={(newTitle) => {
-            setNewPost({ ...newPost, title: newTitle });
-          }}
+          value={postTitle}
+          onChangeText={setPostTitle}
         />
         <Input
           placeholder="Conteúdo"
-          value={newPost?.body}
-          onChangeText={(newBody) => {
-            setNewPost({ ...newPost, body: newBody });
-          }}
+          value={postBody}
+          onChangeText={setPostBody}
           multiline
           style={{ flex: 1 }}
         />
         <S.ButtonContainer>
-          <Button onPress={handleSubmit}>
-            {newPost?.id !== undefined && newPost.id.trim() !== ""
-              ? "Editar"
-              : "Publicar"}
+          <Button
+            onPress={
+              id !== undefined ? () => handleSubmitEdit() : () => handlePost(id)
+            }
+          >
+            {id !== undefined ? "Salvar Edição" : "Publicar"}
           </Button>
         </S.ButtonContainer>
       </S.ChildContainer>
