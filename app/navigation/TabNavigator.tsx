@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Feed from '../screens/FeedScreen';
 import Search from '@/app/screens/SearchScreen';
@@ -8,6 +8,7 @@ import PostScreen from '../screens/PostScreen';
 import TeachersListScreen from '../screens/TeachersListScreen';
 import StudentsListScreen from '../screens/StudentsListScreen';
 import FeedStack from '../screens/FeedStack';
+import { AuthContext } from '@/contexts/auth-context';
 
 type RootTabParamList = {
   Feed: undefined;
@@ -20,6 +21,7 @@ type RootTabParamList = {
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const TabNavigator = () => {
+  const { userType } = useContext(AuthContext);
   return (
     <Tab.Navigator
       screenOptions={({ route }: { route: RouteProp<RootTabParamList, keyof RootTabParamList> }) => ({
@@ -61,7 +63,9 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Feed" options={{headerShown: false}} component={FeedStack} />
       <Tab.Screen name="Search" component={Search} />
+      {userType === 'teacher' && 
       <Tab.Screen name="NewPost" component={PostScreen} />
+      }
       <Tab.Screen name="TeachersList" component={TeachersListScreen} />
       <Tab.Screen name="StudentsList" component={StudentsListScreen} />
     </Tab.Navigator>

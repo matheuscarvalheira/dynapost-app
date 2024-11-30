@@ -11,8 +11,9 @@ import { useContext } from "react";
 import { BackendContext } from "@/contexts/backend-context";
 import MainHeader from "@/components/main-header";
 
-const ClassroomListScreen =  ({ navigation }: ClassroomListProps) => {
-  const { classrooms, loading, error } = useContext(BackendContext);
+const ClassroomListScreen = ({ navigation }: ClassroomListProps) => {
+  const { classrooms, handleChooseClassroom, loading, error } =
+    useContext(BackendContext);
 
   if (loading) {
     return (
@@ -35,19 +36,22 @@ const ClassroomListScreen =  ({ navigation }: ClassroomListProps) => {
     <View style={styles.container}>
       <MainHeader />
       <Text style={styles.header}>Classrooms</Text>
-        <FlatList
-          style={styles.itemList}
-          data={classrooms}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.itemContainer}
-              onPress={() => navigation.navigate("MainTabs")}
-            >
-              <Text style={styles.itemText}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        />
+      <FlatList
+        style={styles.itemList}
+        data={classrooms}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() => {
+              handleChooseClassroom(item.id);
+              navigation.navigate("MainTabs");
+            }}
+          >
+            <Text style={styles.itemText}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };
@@ -66,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    marginTop: 20
   },
   itemContainer: {
     backgroundColor: "#fff",

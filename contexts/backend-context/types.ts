@@ -1,13 +1,15 @@
 export interface BackendContextProps {
   // getClassrooms: () => Promise<GetClassroomsResult>
   classrooms: Classroom[] | []
+  postList: Post[] | []
   loading: boolean
   error: string
-  getAllPosts: ({ classroomId, queryString }: GetAllPostsProps) => Promise<GetAllPostsResult>
-  getPost: ({ postId }: GetPostProps) => Promise<GetPostResult>
+  getSearchedPosts: ({ classroomId, queryString }: GetAllPostsProps) => Promise<GetAllPostsResult>
+  // getPost: ({ postId }: GetPostProps) => Promise<GetPostResult>
   createPost: ({ title, body, published, classroom_id }: Post) => Promise<CreatePostResult>
   updatePost: ({ id, title, body, published }: Post) => Promise<UpdatePostResult>
   deletePost: ({ id }: Post) => Promise<DeletePostResult>
+  handleChooseClassroom: (id: string) => void
 }
 
 export interface BackendProviderProps {
