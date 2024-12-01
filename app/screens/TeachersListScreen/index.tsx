@@ -17,18 +17,18 @@ const ButtonContainer = styled.View`
   margin: 20px 0;
 `;
 
-const handleDelete = (id: string) => {
-  console.log(`Delete user with id: ${id}`);
-};
-
 const handleEdit = (id: string) => {
   console.log(`Edit user with id: ${id}`);
 };
 
 const TeachersListScreen = () => {
   const { userType } = useContext(AuthContext);
-  const { teacherList } = useContext(TeacherContext);
-  
+  const { teacherList, deleteTeacher } = useContext(TeacherContext);
+
+  const handleDelete = (id: string) => {
+    deleteTeacher({ id });
+  };
+
   return (
     <Container>
       <MainHeader />

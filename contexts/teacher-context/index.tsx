@@ -23,12 +23,70 @@ export function TeacherProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  useEffect((() => {
+  async function deleteTeacher({ id }: { id: string }) {
+    setLoading(true);
+    setError("");
+    try {
+      await api.delete(`teachers/${id}`);
+      getAllTeachers();
+    } catch (error) {
+      console.error("Failed to delete teacher: ", error);
+      setError("Ocorreu um erro ao tentar apagar professor");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     getAllTeachers();
-  }), [])
+  }, []);
+
+  async function updateTeacher({
+    id,
+    name,
+    active,
+  }: {
+    id: string;
+    name: string;
+    active: boolean;
+  }) {
+    setLoading(true);
+    setError("");
+    try {
+      await api.put(`teachers/${id}`, { name, active });
+      getAllTeachers();
+    } catch (error) {
+      console.error("Failed to update teacher: ", error);
+      setError("Ocorreu um erro ao tentar atualizar professor");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function createTeacher({
+    name,
+    active,
+  }: {
+    name: string;
+    active: boolean;
+  }) {
+    setLoading(true);
+    setError("");
+    try {
+      await api.post(`teachers/`, { name, active });
+      getAllTeachers();
+    } catch (error) {
+      console.error("Failed to update teacher: ", error);
+      setError("Ocorreu um erro ao tentar atualizar professor");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <TeacherContext.Provider value={{ loading, error, teacherList }}>
+    <TeacherContext.Provider
+      value={{ loading, error, teacherList, deleteTeacher, updateTeacher, createTeacher }}
+    >
       {children}
     </TeacherContext.Provider>
   );
