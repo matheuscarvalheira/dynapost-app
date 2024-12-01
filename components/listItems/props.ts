@@ -1,11 +1,12 @@
 type ListElement = {
-    name: string,
-    id: string;
-}
+  name: string;
+  id: string;
+  active: boolean;
+};
 
 export interface ListItemProps {
-    teacherList?: boolean
-    list: ListElement[]
-    handleEdit: (id: string) => void
-    handleDelete: (id: string) => void
-} 
+  teacherList?: boolean;
+  list: ListElement[];
+  handleEdit: (id: string, name: string, active: boolean) => void;
+  handleDelete: (id: string) => void;
+}

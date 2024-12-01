@@ -29,7 +29,9 @@ export default function ListItems({
           />
           <Text style={styles.text}>{item.name}</Text>
           <View style={styles.actionButtonContainer}>
-            <TouchableOpacity onPress={() => handleEdit(item.id)}>
+            <TouchableOpacity
+              onPress={() => handleEdit(item.id, item.name, item.active)}
+            >
               <Image
                 style={[styles.actionButtonEditIcon, { resizeMode: "contain" }]}
                 source={editIcon}
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   actionButtonContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     gap: 12,
   },
   actionButtonDeleteIcon: {
