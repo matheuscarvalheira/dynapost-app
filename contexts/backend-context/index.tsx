@@ -1,85 +1,176 @@
 // BackendProvider.js
-import React, { createContext, useContext } from 'react';
-import { BackendContextProps, BackendProviderProps, CreatePostResult, DeletePostResult, GetAllPostsProps, GetAllPostsResult, GetClassroomsResult, GetPostProps, GetPostResult, Post, UpdatePostResult } from './types';
-import { AuthContext } from '../auth-context';
-import { api } from '@/api/backend'; 
+import React, { createContext, useContext, useEffect, useState } from "react";
+import {
+  BackendContextProps,
+  BackendProviderProps,
+  Classroom,
+  CreatePostResult,
+  GetSearchedPostsProps,
+  Post,
+} from "./types";
+import { AuthContext } from "../auth-context";
+import { api } from "@/api/backend";
 
 export const BackendContext = createContext({} as BackendContextProps);
 
 export function BackendProvider({ children }: BackendProviderProps) {
   const { userId, userType } = useContext(AuthContext);
+  const [classrooms, setClassrooms] = useState<Classroom[] | []>([]);
+  const [selectedClassroom, setSelectedClassroom] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [postList, setPostList] = useState<Post[] | []>([]);
+  const [searchedPosts, setSearchedPosts] = useState<Post[] | []>([]);
 
-  async function getClassrooms(): Promise<GetClassroomsResult> {
-    if (userId.trim() === '') {
-      return { getClassroomsOk: true, classrooms: [] };
-    } else {
+  async function getClassrooms() {
+    if (userId.trim() !== "" && userType.trim() !== "") {
+      setLoading(true);
+      setError("");
       try {
-        const route = userType === 'teacher' ? 'teachers' : 'students';
-        const { data } = await api.get(`classrooms/${route}/${userId}`);
-        return { getClassroomsOk: true, classrooms: data };
+        const { data } = await api.get(`classrooms/${userType}s/${userId}`);
+        setClassrooms(data);
       } catch (error) {
-        console.error('Failed to get Classrooms:', error);
-        return { getClassroomsOk: false, message: 'Falha ao obter as Turmas. Tente novamente mais tarde.', classrooms: [] };
+        console.error("Failed to get Classrooms:", error);
+        setError("Falha ao obter as turmas");
+      } finally {
+        setLoading(false);
       }
     }
   }
 
-  async function getAllPosts({ classroomId, queryString }: GetAllPostsProps): Promise<GetAllPostsResult> {
-    try {
-      const { data } = await api.get(`/posts/search/${classroomId}?q=${queryString}`);
-      return { getAllPostsOk: true, posts: data };
-    } catch (error) {
-      console.error('Failed to get Posts:', error);
-      return { getAllPostsOk: false, message: 'Falha ao obter as Postagens. Tente novamente mais Tarde.', posts: [] };
+  const handleChooseClassroom = (id: string) => {
+    setSelectedClassroom(id);
+  };
+
+  async function getAllPosts() {
+    if (selectedClassroom) {
+      setLoading(true);
+      setError("");
+      try {
+        const { data } = await api.get(`posts/classroom/${selectedClassroom}`);
+        setPostList(data);
+      } catch (error) {
+        console.error("Failed to get Posts: ", error);
+        setError("Falha ao obter os posts");
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
-  async function getPost({ postId }: GetPostProps): Promise<GetPostResult> {
+  async function getSearchedPosts({ queryString }: GetSearchedPostsProps) {
+    setLoading(true);
+    setError("");
     try {
-      const { data } = await api.get(`posts/${postId}`);
-      return { getPostOk: true, post: data };
+      const { data } = await api.get(
+        `posts/search/${selectedClassroom}?q=${queryString}`
+      );
+      setSearchedPosts(data);
     } catch (error) {
-      console.error('Failed to get Post:', error);
-      return { getPostOk: false, message: 'Falha ao obter as Postagens. Tente novamente mais Tarde.', post: null };
+      setError("Erro ao carregar posts");
+      console.error("Failed to get Posts:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
-  async function createPost({ title, body, published, classroom_id }: Post): Promise<CreatePostResult> {
+  const cleanPostSearch = () => {
+    setSearchedPosts([]);
+  };
+
+  // async function getPost({ postId }: GetPostProps): Promise<GetPostResult> {
+  //   try {
+  //     const { data } = await api.get(`posts/${postId}`);
+  //     return { getPostOk: true, post: data };
+  //   } catch (error) {
+  //     console.error('Failed to get Post:', error);
+  //     return { getPostOk: false, message: 'Falha ao obter as Postagens. Tente novamente mais Tarde.', post: null };
+  //   }
+  // }
+
+  async function createPost({ title, body }: Post): Promise<CreatePostResult> {
     try {
-      const { data } = await api.post('posts', { title, body, published, classroom_id, teacher_id: userId });
-      return { createPostOk: true, message: 'Postagem Criada com Sucesso!', post: data };
+      const { data } = await api.post("posts", {
+        title,
+        body,
+        classroom_id: selectedClassroom,
+        teacher_id: userId,
+      });
+      getAllPosts();
+      return {
+        createPostOk: true,
+        message: "Postagem Criada com Sucesso!",
+        post: data,
+      };
     } catch (error) {
-      console.error('Failed to Create Post:', error);
-      return { createPostOk: false, message: 'Falha na Criação da Postagem. Tente novamente mais Tarde.', post: null };
+      console.error("Failed to Create Post:", error);
+      return {
+        createPostOk: false,
+        message: "Falha na Criação da Postagem. Tente novamente mais Tarde.",
+        post: null,
+      };
     }
   }
 
-  async function updatePost({ id, title, body, published }: Post): Promise<UpdatePostResult> {
+  async function updatePost({ id, title, body }: Post) {
+    setLoading(true);
+    setError("");
     try {
-      const { data } = await api.put(`posts/${id}`, { title, body, published });
-      return { updatePostOk: true, message: 'Postagem Alterada com Sucesso!', post: data };
+      const { data } = await api.put(`posts/${id}`, { title, body });
+      getAllPosts();
+      return {
+        updatePostOk: true,
+        message: "Postagem Alterada com Sucesso!",
+        post: data,
+      };
     } catch (error) {
-      console.error('Failed to Update Post:', error);
-      return { updatePostOk: false, message: 'Falha na Alteração da Postagem. Tente novamente mais Tarde.', post: null };
+      console.error("Failed to Update Post:", error);
+      setError("Ocorreu um erro ao tentar atualizar o post.");
+    } finally {
+      setLoading(false);
     }
   }
 
-  async function deletePost({ id }: Post): Promise<DeletePostResult> {
+  async function deletePost({ id }: { id: string }) {
+    setLoading(true);
+    setError("");
     try {
       const { status } = await api.delete(`posts/${id}`);
       if (status === 204) {
-        return { deletePostOk: true, message: 'Postagem Apagada com Sucesso!' };
-      } else {
-        return { deletePostOk: false, message: 'Falha ao Apagar a Postagem. Tente novamente mais Tarde.' };
+        getAllPosts();
       }
     } catch (error) {
-      console.error('Failed to Delete Post:', error);
-      return { deletePostOk: false, message: 'Falha ao Apagar a Postagem. Tente novamente mais Tarde.' };
+      console.error("Failed to Delete Post:", error);
+      setError("Erro ao tentar apagar o post");
+    } finally {
+      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    getClassrooms();
+  }, [userId, userType]);
+
+  useEffect(() => {
+    getAllPosts();
+  }, [selectedClassroom]);
+
   return (
-    <BackendContext.Provider value={{ getClassrooms, getAllPosts, getPost, createPost, updatePost, deletePost }}>
+    <BackendContext.Provider
+      value={{
+        classrooms,
+        postList,
+        handleChooseClassroom,
+        getSearchedPosts,
+        cleanPostSearch,
+        searchedPosts,
+        loading,
+        error,
+        createPost,
+        updatePost,
+        deletePost,
+      }}
+    >
       {children}
     </BackendContext.Provider>
   );

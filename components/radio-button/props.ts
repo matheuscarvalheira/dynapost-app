@@ -5,6 +5,8 @@ export interface Option {
 export interface RadioButtonProps {
   options: Option[]
   groupName?: string
-  required?: boolean
   checkbox?: boolean
+  value?: string | string[],
+  setFieldValue: (field: string, value: any) => void,
+  name: string,
 }
