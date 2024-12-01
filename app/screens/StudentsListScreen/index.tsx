@@ -3,7 +3,8 @@ import styled from "styled-components/native";
 import ListItems from "@/components/listItems";
 import MainHeader from "@/components/main-header";
 import AddButton from "@/components/addbutton";
-import { AuthContext } from "@/contexts/auth-context";
+import { StudentContext } from "@/contexts/student-context";
+import { Alert } from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -16,37 +17,46 @@ const ButtonContainer = styled.View`
   margin: 20px 0;
 `;
 
-const users = [
-  { id: "1", name: "Aluno A", userType: "aluno" },
-  { id: "2", name: "Aluno B", userType: "aluno" },
-];
-
-const handleDelete = (id: string) => {
-  console.log(`Delete user with id: ${id}`);
-};
-
 const handleEdit = (id: string) => {
   console.log(`Edit user with id: ${id}`);
 };
 
 const StudentsListScreen = () => {
-  const [searchText, setSearchText] = useState("");
-  const { userType } = useContext(AuthContext);
+  const { studentList, deleteStudent } = useContext(StudentContext);
+
+  const handleDelete = (id: string) => {
+    Alert.alert(
+      "Confirme que quer apagar",
+      "Você tem certeza que quer apagar esse aluno?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            deleteStudent({ id });
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
   return (
     <Container>
       <MainHeader />
-      {userType === "teacher" && (
-        <ButtonContainer>
-          <AddButton
-            onPress={() => console.log("Add new student")}
-            icon={require("@/assets/images/plus.png")}
-            buttonText="Adicionar Aluno"
-          />
-        </ButtonContainer>
-      )}
+      <ButtonContainer>
+        <AddButton
+          onPress={() => console.log("Add new student")}
+          icon={require("@/assets/images/plus.png")}
+          buttonText="Adicionar Aluno"
+        />
+      </ButtonContainer>
+
       <ListItems
-        list={users}
+        list={studentList}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
       />

@@ -3,8 +3,8 @@ import styled from "styled-components/native";
 import ListItems from "@/components/listItems";
 import MainHeader from "@/components/main-header";
 import AddButton from "@/components/addbutton";
-import { AuthContext } from "@/contexts/auth-context";
 import { TeacherContext } from "@/contexts/teacher-context";
+import { Alert } from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -22,25 +22,39 @@ const handleEdit = (id: string) => {
 };
 
 const TeachersListScreen = () => {
-  const { userType } = useContext(AuthContext);
   const { teacherList, deleteTeacher } = useContext(TeacherContext);
 
   const handleDelete = (id: string) => {
-    deleteTeacher({ id });
+    Alert.alert(
+      "Confirme que quer apagar",
+      "Você tem certeza que quer apagar esse professor?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            deleteTeacher({ id });
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (
     <Container>
       <MainHeader />
-      {userType === "teacher" && (
-        <ButtonContainer>
-          <AddButton
-            onPress={() => console.log("Add new teacher")}
-            icon={require("@/assets/images/plus.png")}
-            buttonText="Adicionar Professor"
-          />
-        </ButtonContainer>
-      )}
+      <ButtonContainer>
+        <AddButton
+          onPress={() => console.log("Add new teacher")}
+          icon={require("@/assets/images/plus.png")}
+          buttonText="Adicionar Professor"
+        />
+      </ButtonContainer>
+
       <ListItems
         list={teacherList}
         teacherList={true}
