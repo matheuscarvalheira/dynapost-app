@@ -4,6 +4,7 @@ import ListItems from "@/components/listItems";
 import MainHeader from "@/components/main-header";
 import AddButton from "@/components/addbutton";
 import { AuthContext } from "@/contexts/auth-context";
+import { TeacherContext } from "@/contexts/teacher-context";
 
 const Container = styled.View`
   flex: 1;
@@ -16,11 +17,6 @@ const ButtonContainer = styled.View`
   margin: 20px 0;
 `;
 
-const users = [
-  { id: "1", name: "Professor A", userType: "professor" },
-  { id: "2", name: "Professor B", userType: "professor" },
-];
-
 const handleDelete = (id: string) => {
   console.log(`Delete user with id: ${id}`);
 };
@@ -30,9 +26,9 @@ const handleEdit = (id: string) => {
 };
 
 const TeachersListScreen = () => {
-  const [searchText, setSearchText] = useState("");
   const { userType } = useContext(AuthContext);
-
+  const { teacherList } = useContext(TeacherContext);
+  
   return (
     <Container>
       <MainHeader />
@@ -46,7 +42,7 @@ const TeachersListScreen = () => {
         </ButtonContainer>
       )}
       <ListItems
-        list={users}
+        list={teacherList}
         teacherList={true}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
