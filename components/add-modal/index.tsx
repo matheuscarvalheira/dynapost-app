@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Modal,
   View,
@@ -13,24 +13,15 @@ interface ModalProps {
   isVisible: boolean;
   onClose: () => void;
   onSave: (name: string, active: boolean) => void;
-  initialName?: string;
-  initialActive?: boolean;
 }
 
-const UserEditModal: React.FC<ModalProps> = ({
+const UserAddModal: React.FC<ModalProps> = ({
   isVisible,
   onClose,
   onSave,
-  initialName = "",
-  initialActive = false,
 }) => {
-  const [name, setName] = useState(initialName);
-  const [active, setActive] = useState(initialActive);
-
-  useEffect(() => {
-    setName(initialName);
-    setActive(initialActive);
-  }, [initialName, initialActive]);
+  const [name, setName] = useState("");
+  const [active, setActive] = useState(false);
 
   const handleSave = () => {
     onSave(name, active);
@@ -48,9 +39,7 @@ const UserEditModal: React.FC<ModalProps> = ({
     >
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
-          <Text style={styles.title}>
-            {initialName ? "Edite suas informações" : "Insira suas informações"}
-          </Text>
+          <Text style={styles.title}>Adcione suas informações</Text>
           <TextInput
             style={styles.input}
             placeholder="Digite o nome"
@@ -129,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserEditModal;
+export default UserAddModal;

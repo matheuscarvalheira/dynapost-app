@@ -6,63 +6,72 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ListRenderItem,
-  ActivityIndicator,
 } from "react-native";
-import { ListItemProps } from "./props";
-
-export interface User {
-  id: string;
-  name: string;
-  userType: string;
-}
+import { ListItemProps, ListElement } from "./props";
 
 export default function ListItems({
   list,
-  userType,
+  teacherList = false,
   handleDelete,
   handleEdit,
-}: ListItemProps & { userType: string }) {
-  const [data, setData] = useState(list);
+}: ListItemProps) {
+  const [data, setData] = useState(list.slice(0, 5));
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
-  const icon =
-    userType === "Professor"
-      ? require("@/assets/images/teacher.png")
-      : require("@/assets/images/student.png");
+  const icon = teacherList
+    ? require("@/assets/images/teacher.png")
+    : require("@/assets/images/student.png");
   const editIcon = require("@/assets/images/editIcon.png");
   const deleteIcon = require("@/assets/images/deleteIcon.png");
-  return (
-    <ScrollView style={styles.container}>
-      {list.map((item) => (
-        <View style={styles.itemView} key={item.id}>
+
+  const loadMore = () => {
+    if (loading) return;
+
+    setLoading(true);
+    const newPage = page + 1;
+    const newData = list.slice(0, newPage * 5);
+    setData(newData);
+    setPage(newPage);
+    setLoading(false);
+  };
+
+  const renderItem = ({ item }: { item: ListElement }) => (
+    <View style={styles.itemView} key={item.id}>
+      <Image
+        style={[styles.leftIcon, { resizeMode: "contain" }]}
+        source={icon}
+      />
+      <Text style={styles.text}>{item.name}</Text>
+      <View style={styles.actionButtonContainer}>
+        <TouchableOpacity
+          onPress={() => handleEdit(item.id, item.name, item.active)}
+        >
           <Image
-            style={[styles.leftIcon, { resizeMode: "contain" }]}
-            source={icon}
+            style={[styles.actionButtonEditIcon, { resizeMode: "contain" }]}
+            source={editIcon}
           />
-          <Text style={styles.text}>{item.name}</Text>
-          <View style={styles.actionButtonContainer}>
-            <TouchableOpacity
-              onPress={() => handleEdit(item.id, item.name, item.active)}
-            >
-              <Image
-                style={[styles.actionButtonEditIcon, { resizeMode: "contain" }]}
-                source={editIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleDelete(item.id)}>
-              <Image
-                style={[
-                  styles.actionButtonDeleteIcon,
-                  { resizeMode: "contain" },
-                ]}
-                source={deleteIcon}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
-    </ScrollView>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleDelete(item.id)}>
+          <Image
+            style={[styles.actionButtonDeleteIcon, { resizeMode: "contain" }]}
+            source={deleteIcon}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  return (
+    <FlatList
+      style={styles.container}
+      data={list}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+      initialNumToRender={4}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.5}
+    />
   );
 }
 
@@ -104,10 +113,5 @@ const styles = StyleSheet.create({
   actionButtonEditIcon: {
     width: 18,
     height: 18,
-  },
-  loadingContainer: {
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

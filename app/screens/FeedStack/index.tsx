@@ -17,7 +17,7 @@ const FeedStack = () => {
       />
       <Stack.Screen
         name="EditScreen"
-        options={{ headerTitle: "Edit Post" }}
+        options={{ headerShown: true }}
         component={PostScreen}
       />
     </Stack.Navigator>

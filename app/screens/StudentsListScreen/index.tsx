@@ -6,6 +6,7 @@ import AddButton from "@/components/addbutton";
 import { StudentContext } from "@/contexts/student-context";
 import { Alert } from "react-native";
 import UserEditModal from "@/components/edit-modal";
+import UserAddModal from "@/components/add-modal"; 
 
 const Container = styled.View`
   flex: 1;
@@ -20,10 +21,11 @@ const ButtonContainer = styled.View`
 
 const StudentsListScreen = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [selectedName, setSelectedName] = useState("");
   const [selectedActive, setSelectedActive] = useState<boolean | undefined>();
-  const { studentList, deleteStudent, updateStudent } =
+  const { studentList, deleteStudent, updateStudent, createStudent } =
     useContext(StudentContext);
 
   const handleDelete = (id: string) => {
@@ -65,22 +67,40 @@ const StudentsListScreen = () => {
     handleCloseEdit();
   };
 
+  const handleAddUser = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAdd = () => {
+    setShowAddModal(false);
+  };
+
+  const handleSaveNewUser = (name: string, active: boolean) => {
+    createStudent({ name, active });
+    handleCloseAdd();
+  };
+
   return (
     <Container>
       <MainHeader />
-      {/* <ButtonContainer>
+        <ButtonContainer>
         <AddButton
-          onPress={() => console.log("Add new student")}
+          onPress={handleAddUser}
           icon={require("@/assets/images/plus.png")}
           buttonText="Adicionar Aluno"
         />
-      </ButtonContainer> */}
+      </ButtonContainer>
       <UserEditModal
         isVisible={showModal}
         onClose={handleCloseEdit}
         onSave={handleSaveChanges}
         initialActive={selectedActive}
         initialName={selectedName}
+      />
+      <UserAddModal
+        isVisible={showAddModal}
+        onClose={handleCloseAdd}
+        onSave={handleSaveNewUser}
       />
       <ListItems
         list={studentList}
