@@ -16,8 +16,8 @@ interface PostDetailsScreenProps {
   };
 }
 
-const TeacherIcon = require("../../../assets/images/teacher.png");
-const StudentIcon = require("../../../assets/images/student.png");
+const TeacherIcon = require("@/assets/images/teacher.png");
+const StudentIcon = require("@/assets/images/student.png");
 
 const PostDetailsScreen: React.FC<PostDetailsScreenProps> = ({ route }) => {
   const { title, userName, description, userType, dateCreated, dateModified } = route.params;

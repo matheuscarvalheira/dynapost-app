@@ -1,45 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import styles from './styles';
-import * as S from './styles';
 import { RadioButtonProps } from './props';
 
-export default function RadioButton({ options, checkbox, groupName, required}: RadioButtonProps) {
-	const [selected, setSelected] = useState<string | string[]>(checkbox ? [] : '');
+export default function RadioButton({
+  options,
+  checkbox = false,
+  value,
+  setFieldValue,
+  name,
+}: RadioButtonProps) {
 
-	const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {value, checked} = e.target
-        if (!checkbox) return setSelected(value)
+  const isChecked = (optionValue: string) => {
+    // For checkboxes, value should be an array
+    if (checkbox && Array.isArray(value)) {
+      return value.includes(optionValue); // Returns true if the option is selected
+    }
+    // For radio buttons (single selection)
+    return value === optionValue;
+  };
 
-		setSelected((prev) => {
-			if (Array.isArray(prev)) {
-				if (checked) {
-					return [...prev, value];
-				}
-				return prev.filter((option) => option !== value);
-			}
-			return prev;
-		});
-	};
-  
-	const isChecked = (value: string) => {
-        if (checkbox && Array.isArray(selected)) {
-            return selected.includes(value);
-        }
-        return selected === value;
-    };
+  const handleOptionChange = (optionValue: string) => {
+    if (!checkbox) {
+      setFieldValue(name, optionValue); // Set single value for radio button
+    } else if (Array.isArray(value)) {
+      const newValue = value.includes(optionValue)
+        ? value.filter((item) => item !== optionValue) // Unselect if already selected
+        : [...value, optionValue]; // Add if not selected
+      setFieldValue(name, newValue); // Update multi-select array
+    }
+  };
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-      {options?.length > 0 && options.map((option) => (
-		<Pressable
-		key={option.value}
-		style={[styles.option, isChecked(option.value) ? styles.selected : styles.unselected]}
-		onPress={() => handleOptionChange({ target: { value: option.value, checked: !isChecked(option.value) } } as React.ChangeEvent<HTMLInputElement>)}
-		>
-		<Text style={isChecked(option.value) ? styles.selectedText : styles.unselectedText }>{option.value}</Text>
-        </Pressable>
-	  ))}
+      {options?.length > 0 &&
+        options.map((option) => (
+          <Pressable
+            key={option.value}
+            style={[
+              styles.option,
+              isChecked(option.value) ? styles.selected : styles.unselected,
+            ]}
+            onPress={() => handleOptionChange(option.value)}
+          >
+            <Text
+              style={
+                isChecked(option.value)
+                  ? styles.selectedText
+                  : styles.unselectedText
+              }
+            >
+              {option.value} {/* Use label if available */}
+            </Text>
+          </Pressable>
+        ))}
     </View>
   );
 }
