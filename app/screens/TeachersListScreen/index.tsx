@@ -6,6 +6,8 @@ import AddButton from "@/components/addbutton";
 import { TeacherContext } from "@/contexts/teacher-context";
 import { Alert } from "react-native";
 import UserEditModal from "@/components/edit-modal";
+import UserAddModal from "@/components/add-modal";
+
 
 const Container = styled.View`
   flex: 1;
@@ -20,10 +22,11 @@ const ButtonContainer = styled.View`
 
 const TeachersListScreen = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [selectedName, setSelectedName] = useState("");
   const [selectedActive, setSelectedActive] = useState<boolean | undefined>();
-  const { teacherList, deleteTeacher, updateTeacher } =
+  const { teacherList, deleteTeacher, updateTeacher, createTeacher } =
     useContext(TeacherContext);
 
   const handleDelete = (id: string) => {
@@ -65,22 +68,40 @@ const TeachersListScreen = () => {
     handleCloseEdit();
   };
 
+  const handleAddUser = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAdd = () => {
+    setShowAddModal(false);
+  };
+
+  const handleSaveNewUser = (name: string, active: boolean) => {
+    createTeacher({ name, active });
+    handleCloseAdd();
+  };
+
   return (
     <Container>
       <MainHeader />
-      {/* <ButtonContainer>
+      <ButtonContainer>
         <AddButton
-          onPress={() => console.log("Add new teacher")}
+          onPress={handleAddUser}
           icon={require("@/assets/images/plus.png")}
           buttonText="Adicionar Professor"
         />
-      </ButtonContainer> */}
+      </ButtonContainer>
       <UserEditModal
         isVisible={showModal}
         onClose={handleCloseEdit}
         onSave={handleSaveChanges}
         initialActive={selectedActive}
         initialName={selectedName}
+      />
+      <UserAddModal
+        isVisible={showAddModal}
+        onClose={handleCloseAdd}
+        onSave={handleSaveNewUser}
       />
       <ListItems
         list={teacherList}

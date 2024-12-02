@@ -1,4 +1,4 @@
-type ListElement = {
+export type ListElement = {
   name: string;
   id: string;
   active: boolean;

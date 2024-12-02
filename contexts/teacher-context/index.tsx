@@ -9,11 +9,11 @@ export function TeacherProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState("");
   const [teacherList, setTeacherList] = useState([]);
 
-  async function getAllTeachers() {
+  async function getAllTeachers(page = 1, limit = 20) {
     setLoading(true);
     setError("");
     try {
-      const { data } = await api.get("teachers/");
+      const { data } = await api.get(`teachers?page=${page}&limit=${limit}`);
       setTeacherList(data);
     } catch (error) {
       console.error("Failed to fetch teachers: ", error);
@@ -85,7 +85,14 @@ export function TeacherProvider({ children }: { children: ReactNode }) {
 
   return (
     <TeacherContext.Provider
-      value={{ loading, error, teacherList, deleteTeacher, updateTeacher, createTeacher }}
+      value={{
+        loading,
+        error,
+        teacherList,
+        deleteTeacher,
+        updateTeacher,
+        createTeacher,
+      }}
     >
       {children}
     </TeacherContext.Provider>
