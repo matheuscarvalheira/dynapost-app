@@ -9,11 +9,11 @@ export function StudentProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState("");
   const [studentList, setStudentList] = useState([]);
 
-  async function getAllStudents() {
+  async function getAllStudents(page = 1, limit = 20) {
     setLoading(true);
     setError("");
     try {
-      const { data } = await api.get("students/");
+      const { data } = await api.get(`students?page=${page}&limit=${limit}`);
       setStudentList(data);
     } catch (error) {
       console.error("Failed to fetch students: ", error);

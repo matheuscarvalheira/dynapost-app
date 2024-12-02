@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   View,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { ListItemProps, ListElement } from "./props";
 
@@ -15,9 +16,13 @@ export default function ListItems({
   handleDelete,
   handleEdit,
 }: ListItemProps) {
-  const [data, setData] = useState(list.slice(0, 5));
+  const [data, setData] = useState<ListElement[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setData(list);
+  }, [list]);
 
   const icon = teacherList
     ? require("@/assets/images/teacher.png")
@@ -31,7 +36,10 @@ export default function ListItems({
     setLoading(true);
     const newPage = page + 1;
     const newData = list.slice(0, newPage * 5);
-    setData(newData);
+    setData((prevData) => [
+      ...prevData,
+      ...list.slice(prevData.length, newPage * 5),
+    ]);
     setPage(newPage);
     setLoading(false);
   };
@@ -65,10 +73,10 @@ export default function ListItems({
   return (
     <FlatList
       style={styles.container}
-      data={list}
+      data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      initialNumToRender={4}
+      initialNumToRender={5}
       onEndReached={loadMore}
       onEndReachedThreshold={0.5}
     />
@@ -113,5 +121,10 @@ const styles = StyleSheet.create({
   actionButtonEditIcon: {
     width: 18,
     height: 18,
+  },
+  loadingContainer: {
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
