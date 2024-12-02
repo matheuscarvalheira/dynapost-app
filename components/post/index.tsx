@@ -20,6 +20,7 @@ const Post: React.FC<PostProps> = ({
   description,
   userName,
   navigation,
+  showOptions = true,
 }) => {
   const { userType } = useContext(AuthContext);
   const { deletePost } = useContext(BackendContext);
@@ -63,7 +64,7 @@ const Post: React.FC<PostProps> = ({
         />
         <S.UserName>{userName}</S.UserName>
         <View>
-          {userType === "teacher" && (
+          {userType === "teacher" && showOptions && (
             <Menu>
               <MenuTrigger>
                 <S.MenuTriggerText>...</S.MenuTriggerText>

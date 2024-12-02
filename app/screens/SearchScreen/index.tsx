@@ -79,6 +79,7 @@ const SearchScreen = () => {
                     description={body}
                     userName={teacher_name}
                     id={id}
+                    showOptions={false}
                   />
                 </View>
               ))}
