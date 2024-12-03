@@ -1,50 +1,56 @@
-# Welcome to your Expo app 👋
+# DynaPost App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este é um aplicativo móvel desenvolvido com [Expo](https://expo.dev) e [React Native](https://reactnative.dev). O DynaPost App é uma plataforma para professores e alunos interagirem através de postagens e turmas.
 
-## Get started
+## Estrutura do Projeto 📱
 
-1. Install dependencies
+A estrutura do projeto é a seguinte:
+
+- **Autenticação**: Login e registro de usuários.
+- **Navegação**: Navegação por pilha e abas utilizando `@react-navigation/stack` e `@react-navigation/bottom-tabs`.
+- **Postagens**: Professores podem criar, editar e deletar postagens.
+- **Turmas**: Gerenciamento de turmas para professores e alunos.
+
+## Instalação 🧑‍💻
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/seu-usuario/dynapost-app.git
+
+2. Navegue até o diretório do projeto:
+
+   ```bash
+   cd dynapost-app
+   ``` 
+
+3. Instale as dependências:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+### Executando o Projeto 🚀
 
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Para iniciar o aplicativo, execute:
 
 ```bash
-npm run reset-project
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+No output, você encontrará opções para abrir o app em um:
 
-## Learn more
+- build de desenvolvimento
+- emulador Android
+- simulador iOS
+- Expo Go
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Estrutura de Pastas
+- api: Configurações e chamadas para a API backend.
+- app: Contém a navegação e as telas principais do aplicativo.
+- navigation: Configurações de navegação.
+- screens: Telas do aplicativo.
+- components: Componentes reutilizáveis.
+- contexts: Contextos do React Native para gerenciamento de estado.
+- services: Serviços auxiliares, como autenticação.
+- styles: Estilos globais e temas.

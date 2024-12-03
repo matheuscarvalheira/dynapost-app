@@ -1,5 +1,4 @@
-
 export interface SimpleHedaerProps {
-    MainTitle: string,
-    SubTile: string,
+  MainTitle: string,
+  SubTile: string,
 }
